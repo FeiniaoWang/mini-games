@@ -1,0 +1,1171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Raccoon's Four Seasons</title>
+    <style>
+        /* =========================================================
+           1. DESIGN TOKENS (Pastel Bubble Theme)
+           ========================================================= */
+        :root {
+            /* Brand */
+            --brand-500: #52C3AD;
+            --brand-400: #88D0D0;
+            --brand-600: #4AA892;
+            --brand-link: #5880A8;
+
+            /* Accents */
+            --pink-500: #F06090;
+            --pink-600: #DE5D7C;
+            --coral-600: #D87038;
+            --apricot-400: #ECA96F;
+            --yellow-400: #FFCE58;
+            --lavender-500: #A880B8;
+            --lime-500: #A8B858;
+
+            /* Neutrals */
+            --bg: #FFFFFF;
+            --surface: #F8F8F8;
+            --panel: #F0F0F0;
+            --chrome: #E8E8F0;
+            --tint-ice: #E0F0F8;
+            --tint-bubble: #E8F8F8;
+            --divider: #E0E0E8;
+            --muted: #A8A8B0;
+
+            /* Text */
+            --text: #2D2D2D;
+            --text-2: #5B6470;
+            --on-color: #FFFFFF;
+            
+            /* App Settings */
+            --font-family: 'Comic Sans MS', 'Chalkboard SE', 'Nunito', 'Quicksand', sans-serif;
+        }
+
+        /* =========================================================
+           2. GLOBAL RESET & BASE STYLES
+           ========================================================= */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none; /* Disable text selection for app-like feel */
+            -webkit-user-select: none;
+            touch-action: none; /* Disable double-tap to zoom, handled by custom events */
+        }
+
+        body {
+            font-family: var(--font-family);
+            background: linear-gradient(135deg, var(--bg), var(--tint-bubble));
+            color: var(--text);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1, h2, h3 { color: var(--text); text-align: center; }
+
+        /* =========================================================
+           3. LAYOUT & SCREENS
+           ========================================================= */
+        #app {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 10;
+        }
+
+        .hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        /* Portrait Lock Warning */
+        #portrait-warning {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--brand-500);
+            color: var(--on-color);
+            z-index: 9999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            text-align: center;
+            padding: 2rem;
+        }
+
+        @media screen and (orientation: portrait) {
+            #portrait-warning { display: flex; }
+        }
+
+        /* Split-screen Game Layout */
+        #game-screen {
+            background: linear-gradient(to right, var(--tint-ice) 40%, var(--surface) 40%);
+            display: flex;
+            flex-direction: row;
+            padding: 2vmin;
+            gap: 2vmin;
+        }
+
+        .panel {
+            flex: 1;
+            height: 100%;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        #left-panel {
+            flex: 0.45;
+            background: var(--bg);
+            box-shadow: 0 8px 24px rgba(122, 135, 150, 0.1);
+            border: 4px solid var(--chrome);
+            padding: 2vmin;
+        }
+
+        #right-panel {
+            flex: 0.55;
+            padding: 2vmin;
+        }
+
+        /* =========================================================
+           4. UI COMPONENTS (Buttons, Typography)
+           ========================================================= */
+        .bubble-btn {
+            background: var(--brand-500);
+            color: var(--on-color);
+            border: none;
+            border-bottom: 6px solid var(--brand-600);
+            border-radius: 999px;
+            padding: 1.5vmin 4vmin;
+            font-size: clamp(1.2rem, 3vmin, 2rem);
+            font-weight: bold;
+            font-family: var(--font-family);
+            cursor: pointer;
+            transition: transform 0.1s, border-width 0.1s;
+            outline: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bubble-btn:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+            margin-bottom: 4px;
+        }
+
+        .title {
+            font-size: clamp(2rem, 5vmin, 4rem);
+            color: var(--brand-600);
+            margin-bottom: 2vmin;
+            text-shadow: 2px 2px 0px var(--tint-bubble);
+        }
+
+        #season-title {
+            font-size: clamp(2rem, 5vmin, 4rem);
+            margin-bottom: 1.5vmin;
+            color: var(--text-2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* =========================================================
+           5. INTERACTIVE AREAS (Spelling & Drag)
+           ========================================================= */
+        
+        /* Spelling Section */
+        #spelling-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            flex: 1;
+        }
+
+        .slots-row, .letters-row {
+            display: flex;
+            gap: 2vmin;
+            margin-bottom: 2.5vmin;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .slot {
+            width: clamp(40px, 8vmin, 80px);
+            height: clamp(40px, 8vmin, 80px);
+            border: 3px dashed var(--muted);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: clamp(1.8rem, 5vmin, 3.5rem);
+            font-weight: bold;
+            color: var(--brand-600);
+            background: var(--surface);
+        }
+
+        .slot.filled {
+            border: 3px solid var(--brand-500);
+            background: var(--tint-bubble);
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .letter-btn {
+            width: clamp(45px, 9vmin, 90px);
+            height: clamp(45px, 9vmin, 90px);
+            background: var(--bg);
+            border: 3px solid var(--brand-400);
+            border-bottom-width: 6px;
+            border-radius: 16px;
+            font-size: clamp(2rem, 5.5vmin, 3.5rem);
+            font-weight: bold;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .letter-btn:active {
+            transform: translateY(3px);
+            border-bottom-width: 3px;
+        }
+
+        .letter-btn.hidden-letter {
+            opacity: 0;
+            transform: scale(0);
+            pointer-events: none;
+        }
+
+        /* Drag & Drop Section */
+        #drag-container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            flex: 1;
+            justify-content: space-around;
+        }
+
+        .drag-tokens-row {
+            display: flex;
+            gap: 2vmin;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2vmin;
+            background: var(--tint-ice);
+            border-radius: 24px;
+            width: 90%;
+            min-height: 12vmin;
+        }
+
+        .drag-token {
+            width: 8vmin;
+            height: 8vmin;
+            cursor: grab;
+            touch-action: none;
+            z-index: 100;
+            border-radius: 50%;
+            background: var(--bg);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .drag-token:active { cursor: grabbing; }
+
+        .drag-token svg {
+            width: 60%;
+            height: 60%;
+            pointer-events: none; /* Let parent handle events */
+        }
+
+        .token-dragging {
+            position: fixed !important;
+            pointer-events: none; /* Allows elementFromPoint to see underneath */
+            transform: scale(1.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            z-index: 9999 !important;
+            margin: 0 !important;
+        }
+
+        /* =========================================================
+           6. RIGHT PANEL - TREE MAP (Global View)
+           ========================================================= */
+        #map-wrapper {
+            position: relative;
+            width: 80vmin;
+            height: 80vmin;
+            max-width: 100%;
+            max-height: 100%;
+            background: var(--bg);
+            border-radius: 50%;
+            box-shadow: 0 12px 30px rgba(122, 135, 150, 0.15);
+            border: 8px solid var(--chrome);
+            overflow: hidden; /* Makes it a perfect circle */
+        }
+
+        .map-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            width: 100%;
+            height: 100%;
+        }
+
+        .quadrant {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.8s ease;
+            /* Drop zone styles */
+        }
+
+        /* Order: Q1 Spring(TL), Q2 Summer(TR), Q3 Autumn(BL), Q4 Winter(BR) */
+        .quad-0 { background: var(--lime-500); }
+        .quad-1 { background: var(--brand-400); }
+        .quad-2 { background: var(--yellow-400); }
+        .quad-3 { background: var(--tint-ice); }
+
+        .quadrant.locked {
+            filter: grayscale(0.9) brightness(1.2);
+            opacity: 0.4;
+        }
+
+        .quadrant.highlight {
+            box-shadow: inset 0 0 0 6px var(--on-color);
+            filter: brightness(1.1);
+        }
+
+        .quad-icon-bg {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        /* Tree Trunk Overlay */
+        .tree-trunk {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30%; height: 50%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Dropped Token Container inside Quadrant */
+        .drop-target-area {
+            position: absolute;
+            width: 20vmin;
+            height: 20vmin;
+            border: 4px dashed rgba(255,255,255,0.8);
+            border-radius: 50%;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Positioning the targets away from center trunk */
+        .quad-0 .drop-target-area { top: 10%; left: 10%; }
+        .quad-1 .drop-target-area { top: 10%; right: 10%; }
+        .quad-3 .drop-target-area { bottom: 10%; left: 10%; }
+        .quad-2 .drop-target-area { bottom: 10%; right: 10%; }
+
+        /* Dynamic styles for token emoji sizing */
+        .token-emoji {
+            font-size: 5vmin;
+            pointer-events: none;
+            transition: font-size 0.3s ease;
+        }
+
+        .drop-target-area .drag-token {
+            width: 100%;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .drop-target-area .token-emoji {
+            font-size: 12vmin;
+        }
+
+        /* =========================================================
+           7. ANIMATIONS
+           ========================================================= */
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            70% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .shake { animation: shake 0.4s ease; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .floating { animation: float 3s ease-in-out infinite; }
+
+        @keyframes leafFall {
+            0% { transform: translateY(-20px) rotate(0deg); opacity: 0;}
+            50% { opacity: 1; }
+            100% { transform: translateY(40px) rotate(45deg); opacity: 0;}
+        }
+
+        /* --- Seasonal Tree Animations --- */
+        .season-layer {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .spring-flower, .summer-fruit, .autumn-leaf, .winter-snow {
+            transform-box: fill-box;
+            transform-origin: center;
+        }
+
+        /* Spring */
+        .quadrant:not(.locked) .spring-flower {
+            /* Bloom once, then breathe continuously */
+            animation: springBloom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, springBreathe 3s ease-in-out infinite;
+        }
+        .spring-flower { transform: scale(0); opacity: 0; }
+        
+        @keyframes springBloom {
+            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        @keyframes springBreathe {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.15) rotate(8deg); }
+        }
+
+        /* Summer */
+        .quadrant:not(.locked) .summer-fruit {
+            /* Grow once, then sway continuously */
+            animation: summerGrow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, summerSway 4s ease-in-out infinite;
+        }
+        .summer-fruit { transform: scale(0); opacity: 0; }
+
+        @keyframes summerGrow {
+            0% { transform: scale(0) translateY(-10px); opacity: 0; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        @keyframes summerSway {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(-8deg); }
+        }
+
+        /* Autumn */
+        .quadrant:not(.locked) .autumn-leaf {
+            animation: autumnFall linear infinite;
+            opacity: 0;
+        }
+        
+        @keyframes autumnFall {
+            0% { transform: translate(0, -10px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(-20px, 80px) rotate(180deg); opacity: 0; }
+        }
+
+        /* Winter */
+        .quadrant:not(.locked) .winter-snow {
+            animation: winterSnow linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes winterSnow {
+            0% { transform: translate(0, -10px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translate(10px, 90px); opacity: 0; }
+        }
+
+        /* Two delays: 1st for entrance animation, 2nd for continuous loop (entrance delay + 0.8s entrance duration) */
+        .anim-d1 { animation-delay: 0.2s, 1.0s !important; }
+        .anim-d2 { animation-delay: 0.6s, 1.4s !important; }
+        .anim-d3 { animation-delay: 1.0s, 1.8s !important; }
+        .anim-d4 { animation-delay: 1.5s, 2.3s !important; }
+        .anim-d5 { animation-delay: 2.0s, 2.8s !important; }
+
+        /* =========================================================
+           8. RACCOON SVG & STATE STYLES
+           ========================================================= */
+        #raccoon-container {
+            width: 25vmin;
+            height: 25vmin;
+            margin-bottom: 2vmin;
+            position: relative;
+        }
+        
+        .raccoon-svg { width: 100%; height: 100%; overflow: visible; }
+        
+        /* Hidden Props by default */
+        .prop { opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; }
+        
+        /* State Togglers */
+        .stage-0 .prop-spring { opacity: 1; transform: scale(1); }
+        .stage-1 .prop-summer { opacity: 1; transform: scale(1); }
+        .stage-2 .prop-autumn { opacity: 1; transform: scale(1); }
+        .stage-3 .prop-winter { opacity: 1; transform: scale(1); }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Portrait Lock -->
+    <div id="portrait-warning">
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <path d="M12 18h.01"></path>
+            <path d="M19 12h2l-2-3-2 3h2v2a2 2 0 0 1-2 2H9"></path>
+        </svg>
+        <p style="margin-top:20px;">Please rotate your device!</p>
+    </div>
+
+    <!-- Start Screen -->
+    <div id="start-screen" class="screen">
+        <div style="text-align: center;" class="floating">
+            <h1 class="title">Raccoon's Four Seasons</h1>
+            <!-- Cute Raccoon Welcome Icon -->
+            <svg width="150" height="150" viewBox="0 0 200 200" style="margin-bottom: 30px;">
+                <g transform="translate(100, 110)">
+                    <!-- Tail -->
+                    <path d="M 40,30 Q 80,60 70,0 Q 50,-10 30,20 Z" fill="#5B6470" />
+                    <!-- Body -->
+                    <ellipse cx="0" cy="40" rx="60" ry="50" fill="#7A8796" />
+                    <!-- Ears -->
+                    <polygon points="-40,-50 -60,-90 -20,-60" fill="#5B6470" />
+                    <polygon points="40,-50 60,-90 20,-60" fill="#5B6470" />
+                    <!-- Head -->
+                    <ellipse cx="0" cy="-40" rx="70" ry="55" fill="#7A8796" />
+                    <!-- Mask -->
+                    <path d="M -70,-45 Q 0,-20 70,-45 Q 60,0 0,5 Q -60,0 -70,-45 Z" fill="#2D2D2D" />
+                    <!-- Snout -->
+                    <ellipse cx="0" cy="-10" rx="25" ry="18" fill="#F8F8F8" />
+                    <ellipse cx="0" cy="-15" rx="8" ry="5" fill="#2D2D2D" />
+                    <!-- Eyes -->
+                    <circle cx="-35" cy="-35" r="8" fill="#FFFFFF" />
+                    <circle cx="35" cy="-35" r="8" fill="#FFFFFF" />
+                    <circle cx="-35" cy="-35" r="4" fill="#2D2D2D" />
+                    <circle cx="35" cy="-35" r="4" fill="#2D2D2D" />
+                </g>
+            </svg>
+            <br>
+            <button class="bubble-btn" onclick="startGame()">START PLAYING</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="game-screen" class="screen hidden">
+        
+        <!-- Left Panel: Interaction (Spelling / Dragging) -->
+        <div id="left-panel" class="panel">
+            <h2 id="season-title">SPRING</h2>
+            
+            <!-- Raccoon Character -->
+            <div id="raccoon-container" class="floating stage-0">
+                <svg viewBox="0 0 200 200" class="raccoon-svg">
+                    <g transform="translate(100, 110)">
+                        <!-- Tail -->
+                        <path d="M 40,30 Q 80,60 70,0 Q 50,-10 30,20 Z" fill="#5B6470" />
+                        <!-- Body -->
+                        <ellipse cx="0" cy="40" rx="60" ry="50" fill="#7A8796" />
+                        <!-- Ears -->
+                        <polygon points="-40,-50 -60,-90 -20,-60" fill="#5B6470" />
+                        <polygon points="40,-50 60,-90 20,-60" fill="#5B6470" />
+                        <!-- Head -->
+                        <ellipse cx="0" cy="-40" rx="70" ry="55" fill="#7A8796" />
+                        <!-- Mask -->
+                        <path d="M -70,-45 Q 0,-20 70,-45 Q 60,0 0,5 Q -60,0 -70,-45 Z" fill="#2D2D2D" />
+                        <!-- Snout -->
+                        <ellipse cx="0" cy="-10" rx="25" ry="18" fill="#F8F8F8" />
+                        <ellipse cx="0" cy="-15" rx="8" ry="5" fill="#2D2D2D" />
+                        <!-- Eyes -->
+                        <circle cx="-35" cy="-35" r="8" fill="#FFFFFF" />
+                        <circle cx="35" cy="-35" r="8" fill="#FFFFFF" />
+                        <circle cx="-35" cy="-35" r="4" fill="#2D2D2D" />
+                        <circle cx="35" cy="-35" r="4" fill="#2D2D2D" />
+                    </g>
+                </svg>
+            </div>
+
+            <!-- Interaction 1: Spelling -->
+            <div id="spelling-container">
+                <div class="slots-row" id="slots-container"></div>
+                <div class="letters-row" id="letters-container"></div>
+            </div>
+
+            <!-- Interaction 2: Drag & Drop (Hidden initially) -->
+            <div id="drag-container">
+                <h3 style="color: var(--text-2); margin-bottom: 2vmin;">Match to the tree!</h3>
+                <div class="drag-tokens-row" id="tokens-container">
+                    <!-- Tokens generated by JS -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Panel: Global View (Tree Map) -->
+        <div id="right-panel" class="panel">
+            <div id="map-wrapper">
+                <div class="map-grid">
+                    <!-- Top Left: Spring -->
+                    <div class="quadrant quad-0 locked" data-season="0" id="quad-0">
+                        <svg class="quad-icon-bg" viewBox="0 0 100 100">
+                            <!-- Simple flower bg -->
+                            <circle cx="50" cy="30" r="15" fill="var(--on-color)"/>
+                            <circle cx="70" cy="50" r="15" fill="var(--on-color)"/>
+                            <circle cx="50" cy="70" r="15" fill="var(--on-color)"/>
+                            <circle cx="30" cy="50" r="15" fill="var(--on-color)"/>
+                            <circle cx="50" cy="50" r="12" fill="var(--pink-500)"/>
+                        </svg>
+                        <svg class="season-layer" viewBox="0 0 100 100">
+                            <circle cx="100" cy="100" r="70" fill="var(--lime-500)" opacity="0.9" />
+                            <circle cx="40" cy="80" r="40" fill="var(--lime-500)" opacity="0.9" />
+                            <circle cx="80" cy="40" r="40" fill="var(--lime-500)" opacity="0.9" />
+                            <!-- Emoji flowers continuously breathing -->
+                            <text class="spring-flower anim-d1" x="70" y="70" font-size="18" text-anchor="middle" dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d2" x="45" y="85" font-size="14" text-anchor="middle" dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d3" x="85" y="45" font-size="20" text-anchor="middle" dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d4" x="55" y="55" font-size="15" text-anchor="middle" dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d5" x="90" y="80" font-size="12" text-anchor="middle" dominant-baseline="central">🌺</text>
+                        </svg>
+                        <div class="drop-target-area"></div>
+                    </div>
+                    <!-- Top Right: Summer -->
+                    <div class="quadrant quad-1 locked" data-season="1" id="quad-1">
+                        <svg class="quad-icon-bg" viewBox="0 0 100 100">
+                            <!-- Simple Sun bg -->
+                            <circle cx="50" cy="50" r="25" fill="var(--on-color)"/>
+                            <path d="M 50,10 L 50,20 M 50,80 L 50,90 M 10,50 L 20,50 M 80,50 L 90,50 M 20,20 L 30,30 M 70,70 L 80,80 M 20,80 L 30,70 M 70,30 L 80,20" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round"/>
+                        </svg>
+                        <svg class="season-layer" viewBox="0 0 100 100">
+                            <circle cx="0" cy="100" r="70" fill="var(--brand-500)" opacity="0.9" />
+                            <circle cx="60" cy="80" r="40" fill="var(--brand-500)" opacity="0.9" />
+                            <circle cx="20" cy="40" r="40" fill="var(--brand-500)" opacity="0.9" />
+                            <!-- Emoji fruits and leaves swaying -->
+                            <text class="summer-fruit anim-d1" x="30" y="70" font-size="18" text-anchor="middle" dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d2" x="55" y="85" font-size="14" text-anchor="middle" dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d3" x="15" y="45" font-size="16" text-anchor="middle" dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d4" x="45" y="55" font-size="15" text-anchor="middle" dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d5" x="25" y="85" font-size="14" text-anchor="middle" dominant-baseline="central">🍃</text>
+                            <text class="summer-fruit anim-d1" x="45" y="35" font-size="16" text-anchor="middle" dominant-baseline="central">🍃</text>
+                        </svg>
+                        <div class="drop-target-area"></div>
+                    </div>
+                    <!-- Bottom Left: Winter -->
+                    <div class="quadrant quad-3 locked" data-season="3" id="quad-3">
+                        <svg class="quad-icon-bg" viewBox="0 0 100 100">
+                            <!-- Simple Snow bg -->
+                            <path d="M 50,10 L 50,90 M 10,50 L 90,50 M 20,20 L 80,80 M 20,80 L 80,20" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round"/>
+                        </svg>
+                        <svg class="season-layer" viewBox="0 0 100 100">
+                            <!-- Snow on branches -->
+                            <path d="M0,0 Q30,10 60,30" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.9"/>
+                            <path d="M20,30 Q40,60 30,80" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.9"/>
+                            <!-- Falling snow -->
+                            <circle class="winter-snow anim-d1" cx="30" cy="10" r="3" fill="var(--on-color)" style="animation-duration: 3s;" />
+                            <circle class="winter-snow anim-d2" cx="60" cy="0" r="2" fill="var(--on-color)" style="animation-duration: 4s;" />
+                            <circle class="winter-snow anim-d3" cx="80" cy="20" r="4" fill="var(--on-color)" style="animation-duration: 3.5s;" />
+                            <circle class="winter-snow anim-d4" cx="20" cy="40" r="3" fill="var(--on-color)" style="animation-duration: 4.5s;" />
+                            <circle class="winter-snow anim-d5" cx="50" cy="50" r="2" fill="var(--on-color)" style="animation-duration: 3.8s;" />
+                        </svg>
+                        <div class="drop-target-area"></div>
+                    </div>
+                    <!-- Bottom Right: Autumn -->
+                    <div class="quadrant quad-2 locked" data-season="2" id="quad-2">
+                        <svg class="quad-icon-bg" viewBox="0 0 100 100">
+                            <!-- Simple Leaf bg -->
+                            <path d="M 50,90 L 50,60 M 50,10 L 70,40 L 90,40 L 60,60 L 70,90 L 50,70 L 30,90 L 40,60 L 10,40 L 30,40 Z" fill="var(--on-color)"/>
+                        </svg>
+                        <svg class="season-layer" viewBox="0 0 100 100">
+                            <circle cx="100" cy="0" r="70" fill="var(--apricot-400)" opacity="0.9" />
+                            <circle cx="40" cy="20" r="40" fill="var(--apricot-400)" opacity="0.9" />
+                            <circle cx="80" cy="60" r="40" fill="var(--apricot-400)" opacity="0.9" />
+                            <!-- More falling leaves (mix of emojis) -->
+                            <text class="autumn-leaf anim-d1" x="70" y="30" font-size="14" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4s;">🍂</text>
+                            <text class="autumn-leaf anim-d2" x="45" y="15" font-size="16" text-anchor="middle" dominant-baseline="central" style="animation-duration: 5s;">🍁</text>
+                            <text class="autumn-leaf anim-d3" x="85" y="55" font-size="12" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4.5s;">🍂</text>
+                            <text class="autumn-leaf anim-d4" x="55" y="45" font-size="15" text-anchor="middle" dominant-baseline="central" style="animation-duration: 5.5s;">🍁</text>
+                            <text class="autumn-leaf anim-d5" x="60" y="10" font-size="12" text-anchor="middle" dominant-baseline="central" style="animation-duration: 3.5s;">🍂</text>
+                            <text class="autumn-leaf anim-d1" x="90" y="20" font-size="18" text-anchor="middle" dominant-baseline="central" style="animation-duration: 6s;">🍁</text>
+                            <text class="autumn-leaf anim-d2" x="75" y="65" font-size="14" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4.8s;">🍂</text>
+                            <text class="autumn-leaf anim-d3" x="35" y="35" font-size="13" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4.2s;">🍁</text>
+                        </svg>
+                        <div class="drop-target-area"></div>
+                    </div>
+                </div>
+                
+                <!-- Tree Trunk Overlay -->
+                <svg class="tree-trunk" viewBox="0 0 100 200">
+                    <path d="M 30,200 Q 40,100 20,20 Q 50,0 80,20 Q 60,100 70,200 Z" fill="#8C6B5D" />
+                    <!-- Branches -->
+                    <path d="M 40,80 Q 20,60 10,40" stroke="#8C6B5D" stroke-width="8" stroke-linecap="round" fill="none"/>
+                    <path d="M 60,100 Q 80,80 90,60" stroke="#8C6B5D" stroke-width="8" stroke-linecap="round" fill="none"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- Canvas for Confetti -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Game Logic Scripts -->
+    <script>
+        /* =========================================================
+           1. GAME DATA & STATE
+           ========================================================= */
+        function createTokenEmoji(emoji) {
+            return `<span class="token-emoji">${emoji}</span>`;
+        }
+
+        const STAGES = [
+            { word: "SPRING", name: "SPRING", tokenIcon: createTokenEmoji('🌺') },
+            { word: "SUMMER", name: "SUMMER", tokenIcon: createTokenEmoji('🍒') },
+            { word: "AUTUMN", name: "AUTUMN", tokenIcon: createTokenEmoji('🍁') },
+            { word: "WINTER", name: "WINTER", tokenIcon: createTokenEmoji('❄️') }
+        ];
+
+        let currentStageIndex = 0;
+        let currentWordProgress = 0;
+        let activeTokensCount = 0;
+        let gameMode = 'spell'; // 'spell' or 'drag'
+
+        /* =========================================================
+           2. AUDIO SYSTEM (Web Audio API)
+           ========================================================= */
+        let audioCtx;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }
+
+        // Positive feedback (Pop)
+        function playPop() {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        // Negative feedback (Gentle Buzz)
+        function playBuzz() {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.2);
+        }
+
+        // Level Up (Arpeggio)
+        function playWin() {
+            if (!audioCtx) return;
+            const notes = [400, 500, 600, 800];
+            notes.forEach((freq, i) => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0, audioCtx.currentTime + i * 0.1);
+                gain.gain.linearRampToValueAtTime(0.4, audioCtx.currentTime + i * 0.1 + 0.05);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + i * 0.1 + 0.2);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(audioCtx.currentTime + i * 0.1);
+                osc.stop(audioCtx.currentTime + i * 0.1 + 0.2);
+            });
+        }
+
+        /* =========================================================
+           3. CONFETTI SYSTEM (Canvas)
+           ========================================================= */
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animationFrame;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createConfetti() {
+            particles = [];
+            const colors = ['#F06090', '#52C3AD', '#FFCE58', '#5880A8', '#ECA96F'];
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 20,
+                    vy: (Math.random() - 1) * 20 - 5,
+                    size: Math.random() * 10 + 5,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    rot: Math.random() * 360,
+                    rotSpeed: (Math.random() - 0.5) * 10
+                });
+            }
+            if (!animationFrame) loopConfetti();
+        }
+
+        function loopConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let active = false;
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.5; // gravity
+                p.rot += p.rotSpeed;
+                if (p.y < canvas.height) active = true;
+
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rot * Math.PI / 180);
+                ctx.fillStyle = p.color;
+                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                ctx.restore();
+            });
+
+            if (active) {
+                animationFrame = requestAnimationFrame(loopConfetti);
+            } else {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = null;
+            }
+        }
+
+        /* =========================================================
+           4. GAME LOGIC & UI UPDATES
+           ========================================================= */
+        const startScreen = document.getElementById('start-screen');
+        const gameScreen = document.getElementById('game-screen');
+        const seasonTitle = document.getElementById('season-title');
+        const slotsContainer = document.getElementById('slots-container');
+        const lettersContainer = document.getElementById('letters-container');
+        const raccoonContainer = document.getElementById('raccoon-container');
+
+        function startGame() {
+            initAudio();
+            startScreen.classList.add('hidden');
+            setTimeout(() => {
+                startScreen.style.display = 'none';
+                gameScreen.classList.remove('hidden');
+                loadStage(0);
+            }, 500);
+        }
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function loadStage(index) {
+            currentStageIndex = index;
+            const stage = STAGES[index];
+            currentWordProgress = 0;
+
+            // Update UI Title
+            seasonTitle.innerText = `SPELL: ${stage.name}`;
+
+            // Update Raccoon Graphic (change class to trigger CSS animation)
+            raccoonContainer.className = `floating stage-${index}`;
+
+            // Generate Slots
+            slotsContainer.innerHTML = '';
+            for(let i = 0; i < stage.word.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'slot';
+                slotsContainer.appendChild(slot);
+            }
+
+            // Generate Letters (Scrambled)
+            lettersContainer.innerHTML = '';
+            let letters = stage.word.split('');
+            letters = shuffle(letters);
+            
+            letters.forEach((l) => {
+                const btn = document.createElement('button');
+                btn.className = 'letter-btn';
+                btn.innerText = l;
+                
+                // Pointer Event for clicking letter
+                btn.addEventListener('pointerdown', () => handleLetterClick(btn, l));
+                lettersContainer.appendChild(btn);
+            });
+        }
+
+        function handleLetterClick(btn, letter) {
+            if (btn.classList.contains('hidden-letter')) return;
+
+            const stage = STAGES[currentStageIndex];
+            const targetLetter = stage.word[currentWordProgress];
+
+            if (letter === targetLetter) {
+                // Correct
+                playPop();
+                btn.classList.add('hidden-letter'); // hide from pool
+                
+                // Fill slot
+                const slot = slotsContainer.children[currentWordProgress];
+                slot.innerText = letter;
+                slot.classList.add('filled');
+                
+                currentWordProgress++;
+
+                if (currentWordProgress === stage.word.length) {
+                    handleStageComplete();
+                }
+            } else {
+                // Wrong
+                playBuzz();
+                btn.classList.remove('shake');
+                void btn.offsetWidth; // trigger reflow
+                btn.classList.add('shake');
+            }
+        }
+
+        function handleStageComplete() {
+            playWin();
+            createConfetti();
+            
+            // Reveal Map Quadrant
+            const quad = document.getElementById(`quad-${currentStageIndex}`);
+            quad.classList.remove('locked');
+            quad.classList.add('highlight');
+            setTimeout(() => quad.classList.remove('highlight'), 1000);
+
+            setTimeout(() => {
+                if (currentStageIndex < STAGES.length - 1) {
+                    loadStage(currentStageIndex + 1);
+                } else {
+                    startDragPhase();
+                }
+            }, 2000); // Wait 2s before next stage
+        }
+
+        /* =========================================================
+           5. DRAG AND DROP PHASE (Pointer Events)
+           ========================================================= */
+        function startDragPhase() {
+            gameMode = 'drag';
+            seasonTitle.innerText = "MATCH TO MAP!";
+            raccoonContainer.style.display = 'none';
+            document.getElementById('spelling-container').style.display = 'none';
+            
+            const dragContainer = document.getElementById('drag-container');
+            dragContainer.style.display = 'flex';
+            
+            const tokensContainer = document.getElementById('tokens-container');
+            tokensContainer.innerHTML = '';
+            
+            // Create draggable tokens
+            const order = shuffle([0, 1, 2, 3]);
+            activeTokensCount = 4;
+
+            order.forEach(i => {
+                const token = document.createElement('div');
+                token.className = 'drag-token';
+                token.innerHTML = STAGES[i].tokenIcon;
+                token.dataset.season = i;
+                
+                // Add Pointer Events
+                token.addEventListener('pointerdown', handlePointerDown);
+                tokensContainer.appendChild(token);
+            });
+        }
+
+        let draggedEl = null;
+        let startX = 0, startY = 0;
+        let initialLeft = 0, initialTop = 0;
+
+        function handlePointerDown(e) {
+            if (e.button !== 0 && e.type !== 'touchstart') return; // Only left click or touch
+            draggedEl = e.currentTarget;
+            
+            // Capture pointer for smooth dragging outside bounds
+            draggedEl.setPointerCapture(e.pointerId);
+
+            // Get initial position relative to viewport
+            const rect = draggedEl.getBoundingClientRect();
+            
+            // Set styles for dragging (fixed position to break out of flex)
+            draggedEl.classList.add('token-dragging');
+            draggedEl.style.left = rect.left + 'px';
+            draggedEl.style.top = rect.top + 'px';
+            
+            startX = e.clientX;
+            startY = e.clientY;
+            initialLeft = rect.left;
+            initialTop = rect.top;
+
+            draggedEl.addEventListener('pointermove', handlePointerMove);
+            draggedEl.addEventListener('pointerup', handlePointerUp);
+            draggedEl.addEventListener('pointercancel', handlePointerUp);
+        }
+
+        function handlePointerMove(e) {
+            if (!draggedEl) return;
+            e.preventDefault();
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+            draggedEl.style.left = (initialLeft + dx) + 'px';
+            draggedEl.style.top = (initialTop + dy) + 'px';
+        }
+
+        function handlePointerUp(e) {
+            if (!draggedEl) return;
+
+            draggedEl.releasePointerCapture(e.pointerId);
+            draggedEl.removeEventListener('pointermove', handlePointerMove);
+            draggedEl.removeEventListener('pointerup', handlePointerUp);
+            draggedEl.removeEventListener('pointercancel', handlePointerUp);
+
+            // Check Drop Zone
+            // Temporarily hide to find element underneath
+            draggedEl.style.display = 'none';
+            const elemBelow = document.elementFromPoint(e.clientX, e.clientY);
+            draggedEl.style.display = 'flex';
+
+            const dropZone = elemBelow ? elemBelow.closest('.quadrant') : null;
+
+            if (dropZone && dropZone.dataset.season === draggedEl.dataset.season) {
+                // Correct Match
+                playPop();
+                
+                // Remove fixed styling and append to drop target area inside quadrant
+                draggedEl.classList.remove('token-dragging');
+                draggedEl.style.left = '';
+                draggedEl.style.top = '';
+                draggedEl.style.transform = 'scale(1)';
+                draggedEl.style.boxShadow = 'none';
+                
+                // Disable further dragging
+                draggedEl.removeEventListener('pointerdown', handlePointerDown);
+                draggedEl.style.cursor = 'default';
+
+                const targetArea = dropZone.querySelector('.drop-target-area');
+                targetArea.appendChild(draggedEl);
+                targetArea.style.border = 'none'; // remove dashed border
+
+                // Visual feedback
+                dropZone.classList.add('highlight');
+                setTimeout(() => dropZone.classList.remove('highlight'), 500);
+
+                activeTokensCount--;
+                if (activeTokensCount === 0) {
+                    setTimeout(showFinalWin, 500);
+                }
+
+            } else {
+                // Wrong or dropped outside
+                playBuzz();
+                
+                // Animate back to original container visually, then reset DOM
+                draggedEl.style.transition = 'left 0.3s ease, top 0.3s ease';
+                draggedEl.style.left = initialLeft + 'px';
+                draggedEl.style.top = initialTop + 'px';
+
+                setTimeout(() => {
+                    draggedEl.classList.remove('token-dragging');
+                    draggedEl.style.transition = '';
+                    draggedEl.style.left = '';
+                    draggedEl.style.top = '';
+                }, 300);
+            }
+
+            draggedEl = null;
+        }
+
+        function showFinalWin() {
+            playWin();
+            createConfetti();
+            seasonTitle.innerText = "YOU DID IT!";
+            document.getElementById('tokens-container').style.display = 'none';
+            
+            const restartBtn = document.createElement('button');
+            restartBtn.className = 'bubble-btn';
+            restartBtn.innerText = 'PLAY AGAIN';
+            restartBtn.style.marginTop = '2vmin';
+            restartBtn.onclick = () => location.reload();
+            document.getElementById('drag-container').appendChild(restartBtn);
+        }
+
+    </script>
+</body>
+</html>
