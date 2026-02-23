@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- GSAP Core Library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    
+
     <style>
         :root {
             /* Core Brand */
@@ -16,7 +17,7 @@
             --brand-400: #88D0D0;
             --brand-600: #4AA892;
             --brand-link: #5880A8;
-            
+
             /* Accents */
             --pink-500: #F06090;
             --pink-600: #DE5D7C;
@@ -26,7 +27,7 @@
             --yellow-450: #FCCF60;
             --lavender-500: #A880B8;
             --lime-500: #A8B858;
-            
+
             /* Neutrals */
             --bg: #FFFFFF;
             --surface: #F8F8F8;
@@ -35,7 +36,7 @@
             --tint-ice: #E0F0F8;
             --tint-bubble: #E8F8F8;
             --divider: #E0E0E8;
-            
+
             /* Text */
             --text: #2D2D2D;
             --text-2: #5B6470;
@@ -46,8 +47,8 @@
             background-color: var(--bg);
             color: var(--text);
             font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            overflow: hidden; 
-            touch-action: none; 
+            overflow: hidden;
+            touch-action: none;
             user-select: none;
         }
 
@@ -56,19 +57,20 @@
             background: linear-gradient(135deg, var(--brand-500), var(--brand-400));
             color: var(--on-color);
             border-radius: 9999px;
-            box-shadow: 0 4px 10px rgba(82, 195, 173, 0.4), inset 0 -3px 0 rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(82, 195, 173, 0.4), inset 0 -3px 0 rgba(0, 0, 0, 0.1);
             transition: transform 0.1s, box-shadow 0.1s;
         }
+
         .bubble-btn:active {
             transform: translateY(2px);
-            box-shadow: 0 2px 5px rgba(82, 195, 173, 0.4), inset 0 -1px 0 rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(82, 195, 173, 0.4), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
         }
 
         .bubble-panel {
             background-color: var(--surface);
             border: 2px solid var(--tint-ice);
             border-radius: 24px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
         }
 
         /* Letter Tiles */
@@ -88,13 +90,20 @@
             cursor: pointer;
             transition: transform 0.1s;
         }
+
         @media (min-width: 768px) {
-            .letter-tile { width: 56px; height: 56px; font-size: 32px; }
+            .letter-tile {
+                width: 56px;
+                height: 56px;
+                font-size: 32px;
+            }
         }
+
         .letter-tile:active {
             transform: translateY(4px);
             box-shadow: 0 0px 0 #CFEAF2;
         }
+
         .letter-slot {
             width: 44px;
             height: 44px;
@@ -104,8 +113,12 @@
             align-items: center;
             justify-content: center;
         }
+
         @media (min-width: 768px) {
-            .letter-slot { width: 56px; height: 56px; }
+            .letter-slot {
+                width: 56px;
+                height: 56px;
+            }
         }
 
         /* Draggable Word Badges */
@@ -115,17 +128,18 @@
             font-weight: bold;
             font-size: 20px;
             color: white;
-            box-shadow: 0 4px 0 rgba(0,0,0,0.15);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.15);
             cursor: grab;
             position: relative;
             z-index: 50;
             touch-action: none;
             display: inline-block;
         }
+
         .word-badge.dragging {
             cursor: grabbing;
             z-index: 1000;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             transform: scale(1.1);
         }
 
@@ -136,7 +150,9 @@
             height: 100vh;
             width: 100vw;
         }
-        .left-panel, .right-panel {
+
+        .left-panel,
+        .right-panel {
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -145,13 +161,24 @@
             padding: 1rem;
             position: relative;
         }
-        .left-panel { background-color: var(--tint-bubble); }
-        .right-panel { background: linear-gradient(to bottom, #E0F0F8 0%, #D1FAE5 100%); }
-        
+
+        .left-panel {
+            background-color: var(--tint-bubble);
+        }
+
+        .right-panel {
+            background: linear-gradient(to bottom, #E0F0F8 0%, #D1FAE5 100%);
+        }
+
         @media (min-width: 768px) {
-            .game-layout { flex-direction: row; }
+            .game-layout {
+                flex-direction: row;
+            }
+
             /* Give right panel more space on desktop for the larger tree */
-            .right-panel { flex: 1.5; }
+            .right-panel {
+                flex: 1.5;
+            }
         }
 
         /* Tree Styles */
@@ -159,10 +186,13 @@
             width: 100%;
             max-width: 550px;
             height: auto;
-            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.05));
-            overflow: visible; /* Allow butterfly to fly slightly out of bounds */
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.05));
+            overflow: visible;
+            /* Allow butterfly to fly slightly out of bounds */
         }
-        .tree-quadrant, .tree-outline {
+
+        .tree-quadrant,
+        .tree-outline {
             transition: opacity 1s, filter 1s;
         }
 
@@ -177,43 +207,95 @@
             justify-content: center;
             z-index: 10;
         }
-        #drop-spring { top: 5%; left: 10%; }
-        #drop-summer { top: 5%; right: 10%; }
-        #drop-winter { bottom: 15%; left: 10%; }
-        #drop-autumn { bottom: 15%; right: 10%; }
+
+        #drop-spring {
+            top: 5%;
+            left: 10%;
+        }
+
+        #drop-summer {
+            top: 5%;
+            right: 10%;
+        }
+
+        #drop-winter {
+            bottom: 15%;
+            left: 10%;
+        }
+
+        #drop-autumn {
+            bottom: 15%;
+            right: 10%;
+        }
 
         #confetti-canvas {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 9999;
         }
-        
-        .hidden { display: none !important; }
+
+        /* Music toggle (top right) */
+        #music-toggle {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 100;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid var(--chrome);
+            background: var(--bg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #music-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
+
 <body>
 
     <!-- Start Overlay -->
-    <div id="start-overlay" class="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[var(--tint-ice)]">
-        <h1 class="text-4xl md:text-6xl font-black text-[var(--brand-600)] mb-8 text-center px-4">Four Seasons<br/>Adventure!</h1>
+    <div id="start-overlay"
+        class="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[var(--tint-ice)]">
+        <h1 class="text-4xl md:text-6xl font-black text-[var(--brand-600)] mb-8 text-center px-4">Four
+            Seasons<br />Adventure!</h1>
         <button id="start-btn" class="bubble-btn text-2xl px-10 py-4 font-bold">START PLAYING</button>
     </div>
 
     <canvas id="confetti-canvas" class="hidden"></canvas>
 
     <div class="game-layout">
-        
+
         <!-- LEFT PANEL (Always visible Raccoon + Screens 1, 2, 3) -->
         <div class="left-panel">
-            
+
             <!-- Raccoon Character (Persistent across all screens) -->
-            <div id="raccoon-container" class="w-48 md:w-64 mb-2 md:mb-6 relative z-10 transition-transform duration-500">
+            <div id="raccoon-container"
+                class="w-48 md:w-64 mb-2 md:mb-6 relative z-10 transition-transform duration-500">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
                     <defs>
                         <path id="tail-base" d="M 200 280 C 290 260, 330 290, 310 335 C 290 380, 240 350, 200 310 Z" />
-                        <clipPath id="tail-clip"><use href="#tail-base" /></clipPath>
+                        <clipPath id="tail-clip">
+                            <use href="#tail-base" />
+                        </clipPath>
                     </defs>
                     <g id="tail-group">
                         <use href="#tail-base" fill="#95A5A6" />
@@ -234,48 +316,64 @@
                     </g>
                     <g id="arms">
                         <g id="left-arm">
-                            <rect x="125" y="210" width="30" height="65" rx="15" transform="rotate(25 140 210)" fill="#95A5A6" />
-                            <rect x="110" y="258" width="30" height="20" rx="10" transform="rotate(25 125 258)" fill="#2C3E50" />
+                            <rect x="125" y="210" width="30" height="65" rx="15" transform="rotate(25 140 210)"
+                                fill="#95A5A6" />
+                            <rect x="110" y="258" width="30" height="20" rx="10" transform="rotate(25 125 258)"
+                                fill="#2C3E50" />
                         </g>
                         <g id="right-arm">
-                            <rect x="245" y="210" width="30" height="65" rx="15" transform="rotate(-25 260 210)" fill="#95A5A6" />
-                            <rect x="260" y="258" width="30" height="20" rx="10" transform="rotate(-25 275 258)" fill="#2C3E50" />
-                            
+                            <rect x="245" y="210" width="30" height="65" rx="15" transform="rotate(-25 260 210)"
+                                fill="#95A5A6" />
+                            <rect x="260" y="258" width="30" height="20" rx="10" transform="rotate(-25 275 258)"
+                                fill="#2C3E50" />
+
                             <!-- DYNAMIC HELD ITEMS (Emojis) -->
                             <g id="held-item-group" transform="translate(265, 235)">
                                 <g id="item-spring" class="hidden">
-                                    <text x="0" y="0" font-size="36" text-anchor="middle" dominant-baseline="central">🌸</text>
+                                    <text x="0" y="0" font-size="36" text-anchor="middle"
+                                        dominant-baseline="central">🌸</text>
                                 </g>
                                 <g id="item-summer" class="hidden">
-                                    <text x="0" y="0" font-size="36" text-anchor="middle" dominant-baseline="central">🍎</text>
+                                    <text x="0" y="0" font-size="36" text-anchor="middle"
+                                        dominant-baseline="central">🍎</text>
                                 </g>
                                 <g id="item-autumn" class="hidden">
-                                    <text x="0" y="0" font-size="36" text-anchor="middle" dominant-baseline="central">🍁</text>
+                                    <text x="0" y="0" font-size="36" text-anchor="middle"
+                                        dominant-baseline="central">🍁</text>
                                 </g>
                                 <g id="item-winter" class="hidden">
-                                    <text x="0" y="0" font-size="36" text-anchor="middle" dominant-baseline="central">❄️</text>
+                                    <text x="0" y="0" font-size="36" text-anchor="middle"
+                                        dominant-baseline="central">❄️</text>
                                 </g>
                             </g>
                         </g>
                     </g>
                     <g id="head">
                         <g id="ears">
-                            <path d="M 145 110 L 105 55 L 175 75 Z" fill="#95A5A6" stroke="#95A5A6" stroke-width="8" stroke-linejoin="round" />
+                            <path d="M 145 110 L 105 55 L 175 75 Z" fill="#95A5A6" stroke="#95A5A6" stroke-width="8"
+                                stroke-linejoin="round" />
                             <path d="M 140 100 L 115 65 L 160 80 Z" fill="#ECF0F1" />
-                            <path d="M 255 110 L 295 55 L 225 75 Z" fill="#95A5A6" stroke="#95A5A6" stroke-width="8" stroke-linejoin="round" />
+                            <path d="M 255 110 L 295 55 L 225 75 Z" fill="#95A5A6" stroke="#95A5A6" stroke-width="8"
+                                stroke-linejoin="round" />
                             <path d="M 260 100 L 285 65 L 240 80 Z" fill="#ECF0F1" />
                         </g>
                         <ellipse cx="200" cy="150" rx="105" ry="80" fill="#95A5A6" />
-                        <path d="M 105 150 C 95 110, 180 120, 200 150 C 220 120, 305 110, 295 150 C 285 190, 220 185, 200 170 C 180 185, 115 190, 105 150 Z" fill="#34495E" />
+                        <path
+                            d="M 105 150 C 95 110, 180 120, 200 150 C 220 120, 305 110, 295 150 C 285 190, 220 185, 200 170 C 180 185, 115 190, 105 150 Z"
+                            fill="#34495E" />
                         <g id="eyes">
-                            <clipPath id="left-eye-clip"><circle cx="155" cy="150" r="16" /></clipPath>
+                            <clipPath id="left-eye-clip">
+                                <circle cx="155" cy="150" r="16" />
+                            </clipPath>
                             <g clip-path="url(#left-eye-clip)">
                                 <circle cx="155" cy="150" r="16" fill="#000000" />
                                 <circle cx="150" cy="144" r="5" fill="#FFFFFF" />
                                 <circle cx="162" cy="154" r="2" fill="#FFFFFF" />
                                 <rect id="left-eyelid" x="135" y="94" width="40" height="40" fill="#34495E" />
                             </g>
-                            <clipPath id="right-eye-clip"><circle cx="245" cy="150" r="16" /></clipPath>
+                            <clipPath id="right-eye-clip">
+                                <circle cx="245" cy="150" r="16" />
+                            </clipPath>
                             <g clip-path="url(#right-eye-clip)">
                                 <circle cx="245" cy="150" r="16" fill="#000000" />
                                 <circle cx="240" cy="144" r="5" fill="#FFFFFF" />
@@ -287,7 +385,8 @@
                         <ellipse cx="275" cy="175" rx="14" ry="7" fill="#FF9999" opacity="0.8" />
                         <ellipse cx="200" cy="180" rx="30" ry="22" fill="#ECF0F1" />
                         <ellipse cx="200" cy="172" rx="10" ry="6" fill="#2C3E50" />
-                        <path id="mouth-normal" d="M 190 184 Q 195 190 200 184 Q 205 190 210 184" fill="none" stroke="#2C3E50" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path id="mouth-normal" d="M 190 184 Q 195 190 200 184 Q 205 190 210 184" fill="none"
+                            stroke="#2C3E50" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                         <g id="mouth-laugh" opacity="0">
                             <path d="M 184 183 Q 200 201 216 183 Z" fill="#2C3E50" />
                             <rect x="188" y="183" width="9" height="6" rx="2" fill="white" />
@@ -316,12 +415,16 @@
 
             <!-- Screen 2: Drag and Drop -->
             <div id="screen-2" class="hidden w-full flex-col items-center flex-1 justify-center z-50">
-                <h2 class="text-2xl font-bold text-[var(--text)] mb-6 text-center">Match the words<br/>to the Tree!</h2>
+                <h2 class="text-2xl font-bold text-[var(--text)] mb-6 text-center">Match the words<br />to the Tree!
+                </h2>
                 <div id="draggable-words" class="flex flex-wrap justify-center gap-4">
                     <div class="word-badge" data-season="SPRING" style="background-color: var(--lime-500);">SPRING</div>
-                    <div class="word-badge" data-season="SUMMER" style="background-color: var(--brand-500);">SUMMER</div>
-                    <div class="word-badge" data-season="AUTUMN" style="background-color: var(--coral-600);">AUTUMN</div>
-                    <div class="word-badge" data-season="WINTER" style="background-color: var(--brand-link);">WINTER</div>
+                    <div class="word-badge" data-season="SUMMER" style="background-color: var(--brand-500);">SUMMER
+                    </div>
+                    <div class="word-badge" data-season="AUTUMN" style="background-color: var(--coral-600);">AUTUMN
+                    </div>
+                    <div class="word-badge" data-season="WINTER" style="background-color: var(--brand-link);">WINTER
+                    </div>
                 </div>
             </div>
 
@@ -346,26 +449,34 @@
             <!-- The Beautiful Four Seasons Tree -->
             <svg id="season-tree" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
                 <!-- Background sky glow -->
-                <circle cx="250" cy="250" r="230" fill="#FFFFFF" opacity="0.3"/>
-                
+                <circle cx="250" cy="250" r="230" fill="#FFFFFF" opacity="0.3" />
+
                 <!-- Tree Trunk & Branches -->
-                <path d="M 230 480 Q 240 300 230 200 L 270 200 Q 260 300 270 480 Z" fill="#8B664B"/>
-                <path d="M 240 250 Q 180 230 140 160" stroke="#8B664B" stroke-width="20" stroke-linecap="round" fill="none"/>
-                <path d="M 260 250 Q 320 230 360 160" stroke="#8B664B" stroke-width="20" stroke-linecap="round" fill="none"/>
-                <path d="M 245 320 Q 180 320 140 360" stroke="#8B664B" stroke-width="18" stroke-linecap="round" fill="none"/>
-                <path d="M 255 320 Q 320 320 360 360" stroke="#8B664B" stroke-width="18" stroke-linecap="round" fill="none"/>
+                <path d="M 230 480 Q 240 300 230 200 L 270 200 Q 260 300 270 480 Z" fill="#8B664B" />
+                <path d="M 240 250 Q 180 230 140 160" stroke="#8B664B" stroke-width="20" stroke-linecap="round"
+                    fill="none" />
+                <path d="M 260 250 Q 320 230 360 160" stroke="#8B664B" stroke-width="20" stroke-linecap="round"
+                    fill="none" />
+                <path d="M 245 320 Q 180 320 140 360" stroke="#8B664B" stroke-width="18" stroke-linecap="round"
+                    fill="none" />
+                <path d="M 255 320 Q 320 320 360 360" stroke="#8B664B" stroke-width="18" stroke-linecap="round"
+                    fill="none" />
 
                 <!-- Dashed Outlines for the 4 quadrants -->
-                <circle cx="140" cy="140" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none" class="tree-outline" id="outline-SPRING"/>
-                <circle cx="360" cy="140" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none" class="tree-outline" id="outline-SUMMER"/>
-                <circle cx="360" cy="350" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none" class="tree-outline" id="outline-AUTUMN"/>
-                <circle cx="140" cy="350" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none" class="tree-outline" id="outline-WINTER"/>
+                <circle cx="140" cy="140" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none"
+                    class="tree-outline" id="outline-SPRING" />
+                <circle cx="360" cy="140" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none"
+                    class="tree-outline" id="outline-SUMMER" />
+                <circle cx="360" cy="350" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none"
+                    class="tree-outline" id="outline-AUTUMN" />
+                <circle cx="140" cy="350" r="95" stroke="#A8A8B0" stroke-width="4" stroke-dasharray="8 8" fill="none"
+                    class="tree-outline" id="outline-WINTER" />
 
                 <!-- SPRING (Top Left) -->
                 <g id="tree-SPRING" class="tree-quadrant" opacity="0.2" style="filter: grayscale(100%)">
-                    <circle cx="140" cy="140" r="90" fill="#A8B858"/>
-                    <circle cx="90" cy="100" r="60" fill="#A8B858"/>
-                    <circle cx="190" cy="90" r="60" fill="#A8B858"/>
+                    <circle cx="140" cy="140" r="90" fill="#A8B858" />
+                    <circle cx="90" cy="100" r="60" fill="#A8B858" />
+                    <circle cx="190" cy="90" r="60" fill="#A8B858" />
                     <!-- Emoji Flowers -->
                     <g class="animate-items spring-flowers">
                         <text x="100" y="100" font-size="32" text-anchor="middle" dominant-baseline="central">🌸</text>
@@ -378,9 +489,9 @@
 
                 <!-- SUMMER (Top Right) -->
                 <g id="tree-SUMMER" class="tree-quadrant" opacity="0.2" style="filter: grayscale(100%)">
-                    <circle cx="360" cy="140" r="90" fill="#52C3AD"/>
-                    <circle cx="410" cy="100" r="60" fill="#52C3AD"/>
-                    <circle cx="310" cy="90" r="60" fill="#52C3AD"/>
+                    <circle cx="360" cy="140" r="90" fill="#52C3AD" />
+                    <circle cx="410" cy="100" r="60" fill="#52C3AD" />
+                    <circle cx="310" cy="90" r="60" fill="#52C3AD" />
                     <!-- Emoji Apples -->
                     <g class="animate-items summer-apples">
                         <text x="330" y="100" font-size="32" text-anchor="middle" dominant-baseline="central">🍎</text>
@@ -392,34 +503,44 @@
 
                 <!-- AUTUMN (Bottom Right) -->
                 <g id="tree-AUTUMN" class="tree-quadrant" opacity="0.2" style="filter: grayscale(100%)">
-                    <circle cx="360" cy="350" r="90" fill="#F4C7A3"/>
-                    <circle cx="410" cy="310" r="60" fill="#F4C7A3"/>
-                    <circle cx="310" cy="300" r="60" fill="#F4C7A3"/>
+                    <circle cx="360" cy="350" r="90" fill="#F4C7A3" />
+                    <circle cx="410" cy="310" r="60" fill="#F4C7A3" />
+                    <circle cx="310" cy="300" r="60" fill="#F4C7A3" />
                     <!-- Emoji Falling Leaves -->
                     <g class="animate-items autumn-leaves">
-                        <text x="330" y="320" font-size="28" text-anchor="middle" dominant-baseline="central" opacity="0">🍂</text>
-                        <text x="390" y="290" font-size="32" text-anchor="middle" dominant-baseline="central" opacity="0">🍂</text>
-                        <text x="360" y="370" font-size="30" text-anchor="middle" dominant-baseline="central" opacity="0">🍂</text>
-                        <text x="410" y="360" font-size="28" text-anchor="middle" dominant-baseline="central" opacity="0">🍂</text>
-                        <text x="310" y="350" font-size="24" text-anchor="middle" dominant-baseline="central" opacity="0">🍂</text>
+                        <text x="330" y="320" font-size="28" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">🍂</text>
+                        <text x="390" y="290" font-size="32" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">🍂</text>
+                        <text x="360" y="370" font-size="30" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">🍂</text>
+                        <text x="410" y="360" font-size="28" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">🍂</text>
+                        <text x="310" y="350" font-size="24" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">🍂</text>
                     </g>
                 </g>
 
                 <!-- WINTER (Bottom Left) -->
                 <g id="tree-WINTER" class="tree-quadrant" opacity="0.2" style="filter: grayscale(100%)">
-                    <circle cx="140" cy="350" r="90" fill="#E0F0F8"/>
-                    <circle cx="90" cy="310" r="60" fill="#E0F0F8"/>
-                    <circle cx="190" cy="300" r="60" fill="#E0F0F8"/>
+                    <circle cx="140" cy="350" r="90" fill="#E0F0F8" />
+                    <circle cx="90" cy="310" r="60" fill="#E0F0F8" />
+                    <circle cx="190" cy="300" r="60" fill="#E0F0F8" />
                     <!-- Emoji Falling Snow -->
                     <g class="animate-items winter-snow">
-                        <text x="100" y="320" font-size="24" text-anchor="middle" dominant-baseline="central" opacity="0">❄️</text>
-                        <text x="160" y="290" font-size="28" text-anchor="middle" dominant-baseline="central" opacity="0">❄️</text>
-                        <text x="130" y="370" font-size="30" text-anchor="middle" dominant-baseline="central" opacity="0">❄️</text>
-                        <text x="80" y="360" font-size="24" text-anchor="middle" dominant-baseline="central" opacity="0">❄️</text>
-                        <text x="180" y="350" font-size="28" text-anchor="middle" dominant-baseline="central" opacity="0">❄️</text>
+                        <text x="100" y="320" font-size="24" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">❄️</text>
+                        <text x="160" y="290" font-size="28" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">❄️</text>
+                        <text x="130" y="370" font-size="30" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">❄️</text>
+                        <text x="80" y="360" font-size="24" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">❄️</text>
+                        <text x="180" y="350" font-size="28" text-anchor="middle" dominant-baseline="central"
+                            opacity="0">❄️</text>
                     </g>
                 </g>
-                
+
                 <!-- Tree Base Curve -->
                 <path d="M 80 485 Q 250 465 420 485" stroke="#65A30D" stroke-width="18" stroke-linecap="round" />
 
@@ -438,8 +559,12 @@
                     <g id="bf-butterfly-group">
                         <g id="bf-wings">
                             <g id="bf-left-wing">
-                                <path d="M 190 140 C 130 10, 30 0, 20 80 C 10 170, 80 220, 190 190 Z" fill="url(#bf-wingGradientLeft)" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" />
-                                <path d="M 190 180 C 140 190, 40 280, 90 350 C 130 390, 170 330, 190 250 Z" fill="url(#bf-wingGradientLeft)" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" />
+                                <path d="M 190 140 C 130 10, 30 0, 20 80 C 10 170, 80 220, 190 190 Z"
+                                    fill="url(#bf-wingGradientLeft)" stroke="#FFFFFF" stroke-width="4"
+                                    stroke-linejoin="round" />
+                                <path d="M 190 180 C 140 190, 40 280, 90 350 C 130 390, 170 330, 190 250 Z"
+                                    fill="url(#bf-wingGradientLeft)" stroke="#FFFFFF" stroke-width="4"
+                                    stroke-linejoin="round" />
                                 <circle cx="80" cy="85" r="18" fill="#FFFFFF" opacity="0.6" />
                                 <circle cx="45" cy="140" r="10" fill="#FFFFFF" opacity="0.6" />
                                 <circle cx="115" cy="165" r="12" fill="#FFFFFF" opacity="0.6" />
@@ -448,8 +573,12 @@
                                 <circle cx="145" cy="330" r="6" fill="#FFFFFF" opacity="0.6" />
                             </g>
                             <g id="bf-right-wing">
-                                <path d="M 210 140 C 270 10, 370 0, 380 80 C 390 170, 320 220, 210 190 Z" fill="url(#bf-wingGradientRight)" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" />
-                                <path d="M 210 180 C 260 190, 360 280, 310 350 C 270 390, 230 330, 210 250 Z" fill="url(#bf-wingGradientRight)" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round" />
+                                <path d="M 210 140 C 270 10, 370 0, 380 80 C 390 170, 320 220, 210 190 Z"
+                                    fill="url(#bf-wingGradientRight)" stroke="#FFFFFF" stroke-width="4"
+                                    stroke-linejoin="round" />
+                                <path d="M 210 180 C 260 190, 360 280, 310 350 C 270 390, 230 330, 210 250 Z"
+                                    fill="url(#bf-wingGradientRight)" stroke="#FFFFFF" stroke-width="4"
+                                    stroke-linejoin="round" />
                                 <circle cx="320" cy="85" r="18" fill="#FFFFFF" opacity="0.6" />
                                 <circle cx="355" cy="140" r="10" fill="#FFFFFF" opacity="0.6" />
                                 <circle cx="285" cy="165" r="12" fill="#FFFFFF" opacity="0.6" />
@@ -461,11 +590,13 @@
 
                         <g id="bf-antennae">
                             <g id="bf-left-antenna">
-                                <path d="M 185 75 Q 150 20 125 45" fill="none" stroke="#1E293B" stroke-width="3" stroke-linecap="round" />
+                                <path d="M 185 75 Q 150 20 125 45" fill="none" stroke="#1E293B" stroke-width="3"
+                                    stroke-linecap="round" />
                                 <circle cx="125" cy="45" r="8" fill="#F472B6" />
                             </g>
                             <g id="bf-right-antenna">
-                                <path d="M 215 75 Q 250 20 275 45" fill="none" stroke="#1E293B" stroke-width="3" stroke-linecap="round" />
+                                <path d="M 215 75 Q 250 20 275 45" fill="none" stroke="#1E293B" stroke-width="3"
+                                    stroke-linecap="round" />
                                 <circle cx="275" cy="45" r="8" fill="#F472B6" />
                             </g>
                         </g>
@@ -478,7 +609,8 @@
                                 <rect x="175" y="130" width="50" height="140" rx="25" />
                             </clipPath>
                             <rect x="175" y="130" width="50" height="140" rx="25" fill="#E9D5FF" />
-                            <g clip-path="url(#bf-body-clip)" stroke="#C084FC" stroke-width="4" stroke-linecap="round" opacity="0.5">
+                            <g clip-path="url(#bf-body-clip)" stroke="#C084FC" stroke-width="4" stroke-linecap="round"
+                                opacity="0.5">
                                 <line x1="180" y1="180" x2="220" y2="180" />
                                 <line x1="180" y1="205" x2="220" y2="205" />
                                 <line x1="180" y1="230" x2="220" y2="230" />
@@ -490,24 +622,31 @@
                             <ellipse cx="168" cy="115" r="6" fill="#F472B6" opacity="0.8" />
                             <ellipse cx="232" cy="115" r="6" fill="#F472B6" opacity="0.8" />
                             <g id="bf-eyes">
-                                <clipPath id="bf-left-eye-clip"><circle cx="180" cy="102" r="8" /></clipPath>
+                                <clipPath id="bf-left-eye-clip">
+                                    <circle cx="180" cy="102" r="8" />
+                                </clipPath>
                                 <g clip-path="url(#bf-left-eye-clip)">
                                     <circle cx="180" cy="102" r="8" fill="#1E293B" />
                                     <circle cx="178" cy="99" r="2.5" fill="#FFFFFF" />
                                     <circle cx="183" cy="104" r="1" fill="#FFFFFF" />
                                     <rect id="bf-left-eyelid" x="170" y="70" width="20" height="20" fill="#E9D5FF" />
                                 </g>
-                                <path d="M 172 98 L 168 93 M 176 95 L 174 88" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round" />
-                                <clipPath id="bf-right-eye-clip"><circle cx="220" cy="102" r="8" /></clipPath>
+                                <path d="M 172 98 L 168 93 M 176 95 L 174 88" stroke="#1E293B" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                                <clipPath id="bf-right-eye-clip">
+                                    <circle cx="220" cy="102" r="8" />
+                                </clipPath>
                                 <g clip-path="url(#bf-right-eye-clip)">
                                     <circle cx="220" cy="102" r="8" fill="#1E293B" />
                                     <circle cx="218" cy="99" r="2.5" fill="#FFFFFF" />
                                     <circle cx="223" cy="104" r="1" fill="#FFFFFF" />
                                     <rect id="bf-right-eyelid" x="210" y="70" width="20" height="20" fill="#E9D5FF" />
                                 </g>
-                                <path d="M 228 98 L 232 93 M 224 95 L 226 88" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round" />
+                                <path d="M 228 98 L 232 93 M 224 95 L 226 88" stroke="#1E293B" stroke-width="1.5"
+                                    stroke-linecap="round" />
                             </g>
-                            <path d="M 196 115 Q 200 120 204 115" fill="none" stroke="#1E293B" stroke-width="2" stroke-linecap="round" />
+                            <path d="M 196 115 Q 200 120 204 115" fill="none" stroke="#1E293B" stroke-width="2"
+                                stroke-linecap="round" />
                         </g>
                     </g>
                 </g>
@@ -515,8 +654,12 @@
                 <!-- SUMMER CATERPILLAR (Hidden Initially - Moved to lower-middle of summer canopy) -->
                 <g id="summer-caterpillar-container" transform="translate(280, 180) scale(0.15)" opacity="0">
                     <defs>
-                        <clipPath id="cp-l-eye-clip"><circle cx="305" cy="200" r="12" /></clipPath>
-                        <clipPath id="cp-r-eye-clip"><circle cx="345" cy="200" r="12" /></clipPath>
+                        <clipPath id="cp-l-eye-clip">
+                            <circle cx="305" cy="200" r="12" />
+                        </clipPath>
+                        <clipPath id="cp-r-eye-clip">
+                            <circle cx="345" cy="200" r="12" />
+                        </clipPath>
                     </defs>
                     <g class="cp-part" id="cp-seg4">
                         <rect x="65" y="260" width="10" height="25" rx="5" fill="#334155" />
@@ -548,11 +691,13 @@
                     </g>
                     <g class="cp-part" id="cp-head-group">
                         <g id="cp-left-antenna">
-                            <path d="M 305 165 Q 295 120 270 120" stroke="#334155" stroke-width="3" stroke-linecap="round" fill="none" />
+                            <path d="M 305 165 Q 295 120 270 120" stroke="#334155" stroke-width="3"
+                                stroke-linecap="round" fill="none" />
                             <circle cx="270" cy="120" r="8" fill="#FDE047" />
                         </g>
                         <g id="cp-right-antenna">
-                            <path d="M 345 165 Q 355 120 380 120" stroke="#334155" stroke-width="3" stroke-linecap="round" fill="none" />
+                            <path d="M 345 165 Q 355 120 380 120" stroke="#334155" stroke-width="3"
+                                stroke-linecap="round" fill="none" />
                             <circle cx="380" cy="120" r="8" fill="#FDE047" />
                         </g>
                         <circle cx="325" cy="210" r="50" fill="#F9A8D4" />
@@ -570,7 +715,8 @@
                             <circle cx="350" cy="204" r="1.5" fill="#FFFFFF" />
                             <rect id="cp-right-eyelid" x="330" y="150" width="30" height="30" fill="#F9A8D4" />
                         </g>
-                        <path d="M 318 215 Q 325 222 332 215" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round" fill="none" />
+                        <path d="M 318 215 Q 325 222 332 215" stroke="#1E293B" stroke-width="2.5" stroke-linecap="round"
+                            fill="none" />
                     </g>
                 </g>
 
@@ -578,13 +724,16 @@
                 <g id="autumn-fox-container" transform="translate(260, 430) scale(0.15)" opacity="0">
                     <defs>
                         <clipPath id="fox-tail-clip">
-                            <path d="M 200 295 C 222 344, 305 344, 312 261 C 320 179, 275 164, 252 194 C 230 224, 215 269, 200 295 Z" />
+                            <path
+                                d="M 200 295 C 222 344, 305 344, 312 261 C 320 179, 275 164, 252 194 C 230 224, 215 269, 200 295 Z" />
                         </clipPath>
                     </defs>
 
                     <g id="fox-tail-group">
                         <g clip-path="url(#fox-tail-clip)">
-                            <path d="M 200 295 C 222 344, 305 344, 312 261 C 320 179, 275 164, 252 194 C 230 224, 215 269, 200 295 Z" fill="#E67E22" />
+                            <path
+                                d="M 200 295 C 222 344, 305 344, 312 261 C 320 179, 275 164, 252 194 C 230 224, 215 269, 200 295 Z"
+                                fill="#E67E22" />
                             <circle cx="298" cy="186" r="30" fill="#FFF7ED" />
                             <circle cx="275" cy="179" r="22" fill="#FFF7ED" />
                             <circle cx="312" cy="209" r="22" fill="#FFF7ED" />
@@ -604,16 +753,24 @@
                     <g id="fox-arms">
                         <g id="fox-left-arm">
                             <g transform="rotate(25 142 215)">
-                                <rect id="fox-l-arm-shape" x="130" y="215" width="24" height="60" rx="12" fill="#E67E22" />
-                                <clipPath id="fox-l-arm-clip"><use href="#fox-l-arm-shape"/></clipPath>
-                                <rect x="110" y="250" width="50" height="40" fill="#2C3E50" clip-path="url(#fox-l-arm-clip)" />
+                                <rect id="fox-l-arm-shape" x="130" y="215" width="24" height="60" rx="12"
+                                    fill="#E67E22" />
+                                <clipPath id="fox-l-arm-clip">
+                                    <use href="#fox-l-arm-shape" />
+                                </clipPath>
+                                <rect x="110" y="250" width="50" height="40" fill="#2C3E50"
+                                    clip-path="url(#fox-l-arm-clip)" />
                             </g>
                         </g>
                         <g id="fox-right-arm">
                             <g transform="rotate(-25 258 215)">
-                                <rect id="fox-r-arm-shape" x="246" y="215" width="24" height="60" rx="12" fill="#E67E22" />
-                                <clipPath id="fox-r-arm-clip"><use href="#fox-r-arm-shape"/></clipPath>
-                                <rect x="230" y="250" width="50" height="40" fill="#2C3E50" clip-path="url(#fox-r-arm-clip)" />
+                                <rect id="fox-r-arm-shape" x="246" y="215" width="24" height="60" rx="12"
+                                    fill="#E67E22" />
+                                <clipPath id="fox-r-arm-clip">
+                                    <use href="#fox-r-arm-shape" />
+                                </clipPath>
+                                <rect x="230" y="250" width="50" height="40" fill="#2C3E50"
+                                    clip-path="url(#fox-r-arm-clip)" />
                             </g>
                         </g>
                     </g>
@@ -632,18 +789,24 @@
                             </g>
                         </g>
                         <ellipse cx="200" cy="145" rx="105" ry="80" fill="#E67E22" />
-                        <path d="M 100 145 Q 150 145, 200 170 Q 250 145, 300 145 Q 290 220, 200 220 Q 110 220, 100 145 Z" fill="#FFF7ED" />
+                        <path
+                            d="M 100 145 Q 150 145, 200 170 Q 250 145, 300 145 Q 290 220, 200 220 Q 110 220, 100 145 Z"
+                            fill="#FFF7ED" />
                         <ellipse cx="130" cy="170" rx="16" ry="8" fill="#FF9999" opacity="0.7" />
                         <ellipse cx="270" cy="170" rx="16" ry="8" fill="#FF9999" opacity="0.7" />
                         <g id="fox-eyes">
-                            <clipPath id="fox-left-eye-clip"><circle cx="150" cy="145" r="15" /></clipPath>
+                            <clipPath id="fox-left-eye-clip">
+                                <circle cx="150" cy="145" r="15" />
+                            </clipPath>
                             <g clip-path="url(#fox-left-eye-clip)">
                                 <circle cx="150" cy="145" r="15" fill="#2C3E50" />
                                 <circle cx="145" cy="139" r="4.5" fill="#FFFFFF" />
                                 <circle cx="156" cy="149" r="2" fill="#FFFFFF" />
                                 <rect id="fox-left-eyelid" x="130" y="90" width="40" height="40" fill="#E67E22" />
                             </g>
-                            <clipPath id="fox-right-eye-clip"><circle cx="250" cy="145" r="15" /></clipPath>
+                            <clipPath id="fox-right-eye-clip">
+                                <circle cx="250" cy="145" r="15" />
+                            </clipPath>
                             <g clip-path="url(#fox-right-eye-clip)">
                                 <circle cx="250" cy="145" r="15" fill="#2C3E50" />
                                 <circle cx="245" cy="139" r="4.5" fill="#FFFFFF" />
@@ -654,7 +817,8 @@
                         <ellipse cx="200" cy="175" rx="8" ry="5" fill="#2C3E50" />
                         <ellipse cx="197" cy="173" rx="2.5" ry="1.5" fill="#FFFFFF" opacity="0.6" />
                         <path d="M 200 180 L 200 185" stroke="#2C3E50" stroke-width="2.5" stroke-linecap="round" />
-                        <path d="M 188 185 Q 194 192 200 185 Q 206 192 212 185" fill="none" stroke="#2C3E50" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M 188 185 Q 194 192 200 185 Q 206 192 212 185" fill="none" stroke="#2C3E50"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
                     </g>
                 </g>
 
@@ -662,45 +826,55 @@
                 <g id="winter-rabbit-container" transform="translate(80, 433) scale(0.15)" opacity="0">
                     <!-- 小尾巴 -->
                     <circle cx="100" cy="270" r="25" fill="#FFFFFF" />
-                    
+
                     <g id="rabbit-legs" fill="#E2E8F0">
                         <rect id="rabbit-left-leg" x="165" y="280" width="24" height="30" rx="12" />
                         <rect id="rabbit-right-leg" x="211" y="280" width="24" height="30" rx="12" />
                     </g>
-                    
+
                     <g id="rabbit-body-group">
                         <ellipse id="rabbit-body" cx="200" cy="220" rx="60" ry="70" fill="#FFFFFF" />
                     </g>
 
                     <g id="rabbit-arms">
-                        <rect id="rabbit-left-arm" x="140" y="210" width="20" height="50" rx="10" transform="rotate(25 150 210)" fill="#FFFFFF" />
-                        <rect id="rabbit-right-arm" x="240" y="210" width="20" height="50" rx="10" transform="rotate(-25 250 210)" fill="#FFFFFF" />
+                        <rect id="rabbit-left-arm" x="140" y="210" width="20" height="50" rx="10"
+                            transform="rotate(25 150 210)" fill="#FFFFFF" />
+                        <rect id="rabbit-right-arm" x="240" y="210" width="20" height="50" rx="10"
+                            transform="rotate(-25 250 210)" fill="#FFFFFF" />
                     </g>
 
                     <g id="rabbit-head">
                         <g id="rabbit-ears">
                             <g id="rabbit-left-ear">
-                                <ellipse cx="160" cy="70" rx="18" ry="55" transform="rotate(-15 160 70)" fill="#FFFFFF" />
-                                <ellipse cx="160" cy="70" rx="8" ry="40" transform="rotate(-15 160 70)" fill="#F472B6" opacity="0.8" />
+                                <ellipse cx="160" cy="70" rx="18" ry="55" transform="rotate(-15 160 70)"
+                                    fill="#FFFFFF" />
+                                <ellipse cx="160" cy="70" rx="8" ry="40" transform="rotate(-15 160 70)" fill="#F472B6"
+                                    opacity="0.8" />
                             </g>
                             <g id="rabbit-right-ear">
-                                <ellipse cx="240" cy="70" rx="18" ry="55" transform="rotate(15 240 70)" fill="#FFFFFF" />
-                                <ellipse cx="240" cy="70" rx="8" ry="40" transform="rotate(15 240 70)" fill="#F472B6" opacity="0.8" />
+                                <ellipse cx="240" cy="70" rx="18" ry="55" transform="rotate(15 240 70)"
+                                    fill="#FFFFFF" />
+                                <ellipse cx="240" cy="70" rx="8" ry="40" transform="rotate(15 240 70)" fill="#F472B6"
+                                    opacity="0.8" />
                             </g>
                         </g>
                         <ellipse cx="200" cy="145" rx="75" ry="60" fill="#FFFFFF" />
                         <ellipse cx="150" cy="160" rx="12" ry="6" fill="#FF9999" opacity="0.7" />
                         <ellipse cx="250" cy="160" rx="12" ry="6" fill="#FF9999" opacity="0.7" />
-                        
+
                         <g id="rabbit-eyes">
-                            <clipPath id="rabbit-left-eye-clip"><circle cx="165" cy="140" r="12" /></clipPath>
+                            <clipPath id="rabbit-left-eye-clip">
+                                <circle cx="165" cy="140" r="12" />
+                            </clipPath>
                             <g clip-path="url(#rabbit-left-eye-clip)">
                                 <circle cx="165" cy="140" r="12" fill="#2C3E50" />
                                 <circle cx="161" cy="135" r="4" fill="#FFFFFF" />
                                 <circle cx="170" cy="143" r="1.5" fill="#FFFFFF" />
                                 <rect id="rabbit-left-eyelid" x="140" y="90" width="40" height="40" fill="#FFFFFF" />
                             </g>
-                            <clipPath id="rabbit-right-eye-clip"><circle cx="235" cy="140" r="12" /></clipPath>
+                            <clipPath id="rabbit-right-eye-clip">
+                                <circle cx="235" cy="140" r="12" />
+                            </clipPath>
                             <g clip-path="url(#rabbit-right-eye-clip)">
                                 <circle cx="235" cy="140" r="12" fill="#2C3E50" />
                                 <circle cx="231" cy="135" r="4" fill="#FFFFFF" />
@@ -708,677 +882,713 @@
                                 <rect id="rabbit-right-eyelid" x="210" y="90" width="40" height="40" fill="#FFFFFF" />
                             </g>
                         </g>
-                        
+
                         <!-- Nose & Mouth -->
                         <ellipse cx="200" cy="155" rx="5" ry="3" fill="#F472B6" />
                         <path d="M 200 158 L 200 162" stroke="#2C3E50" stroke-width="2" stroke-linecap="round" />
-                        <path d="M 192 162 Q 196 168 200 162 Q 204 168 208 162" fill="none" stroke="#2C3E50" stroke-width="2" stroke-linecap="round" />
+                        <path d="M 192 162 Q 196 168 200 162 Q 204 168 208 162" fill="none" stroke="#2C3E50"
+                            stroke-width="2" stroke-linecap="round" />
                     </g>
                 </g>
             </svg>
         </div>
     </div>
 
-<script>
-/**
- * Game Data & State
- */
-const SEASONS = [
-    { name: 'SPRING', item: '#item-spring', color: 'var(--lime-500)' },
-    { name: 'SUMMER', item: '#item-summer', color: 'var(--brand-500)' },
-    { name: 'AUTUMN', item: '#item-autumn', color: 'var(--coral-600)' },
-    { name: 'WINTER', item: '#item-winter', color: 'var(--brand-link)' }
-];
+    <audio id="bg-music" src="bg_song.mp3" loop preload="auto"></audio>
+    <button type="button" id="music-toggle" aria-label="Unmute music">🔇</button>
 
-let gameState = {
-    screen: 1,
-    seasonIndex: 0,
-    spelledLetters: [],
-    targetWord: '',
-    availableLetters: [],
-    matchesFound: 0
-};
+    <script>
+        // Volume: sound effects use 0.1–0.2; music is 50% of max SFX volume (0.2)
+        const SFX_VOLUME = 0.2;
+        const BG_MUSIC_VOLUME = SFX_VOLUME * 0.5; // 0.1
 
-/**
- * Audio System (Web Audio API)
- */
-let audioCtx = null;
-function initAudio() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-}
-
-function playTone(freq, type, duration, vol=0.1) {
-    if (!audioCtx) return;
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-    
-    gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-    
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    
-    osc.start();
-    osc.stop(audioCtx.currentTime + duration);
-}
-
-const sounds = {
-    pop: () => playTone(600, 'sine', 0.1, 0.2),
-    click: () => playTone(400, 'sine', 0.05, 0.1),
-    success: () => {
-        playTone(400, 'sine', 0.1, 0.2);
-        setTimeout(() => playTone(500, 'sine', 0.1, 0.2), 100);
-        setTimeout(() => playTone(600, 'sine', 0.2, 0.2), 200);
-    },
-    error: () => playTone(200, 'sawtooth', 0.3, 0.1),
-    win: () => {
-        [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-            setTimeout(() => playTone(freq, 'sine', 0.3, 0.2), i * 150);
-        });
-    }
-};
-
-/**
- * Screen 1 Logic (Spelling)
- */
-function loadSpellingSeason() {
-    const season = SEASONS[gameState.seasonIndex];
-    gameState.targetWord = season.name;
-    gameState.spelledLetters = new Array(season.name.length).fill(null);
-    
-    // Setup available letters (scrambled)
-    gameState.availableLetters = season.name.split('').map((char, id) => ({char, id}));
-    gameState.availableLetters.sort(() => Math.random() - 0.5);
-
-    // Update Raccoon Holding Item
-    SEASONS.forEach(s => document.querySelector(s.item).classList.add('hidden'));
-    document.querySelector(season.item).classList.remove('hidden');
-
-    renderSpellingBoard();
-}
-
-function renderSpellingBoard() {
-    const slotsEl = document.getElementById('word-slots');
-    const bankEl = document.getElementById('letter-bank');
-    
-    slotsEl.innerHTML = '';
-    bankEl.innerHTML = '';
-
-    // Render Slots
-    gameState.spelledLetters.forEach((letterObj, index) => {
-        const slot = document.createElement('div');
-        slot.className = 'letter-slot';
-        
-        if (letterObj) {
-            const tile = createTile(letterObj, () => removeLetter(index));
-            slot.appendChild(tile);
-        }
-        slotsEl.appendChild(slot);
-    });
-
-    // Render Bank
-    gameState.availableLetters.forEach((letterObj) => {
-        if (!letterObj.used) {
-            const tile = createTile(letterObj, () => addLetter(letterObj));
-            bankEl.appendChild(tile);
-        }
-    });
-}
-
-function createTile(letterObj, onClick) {
-    const tile = document.createElement('div');
-    tile.className = 'letter-tile';
-    tile.innerText = letterObj.char;
-    tile.onclick = () => {
-        sounds.click();
-        gsap.fromTo(tile, {scale: 0.8}, {scale: 1, duration: 0.2, ease: "back.out(1.7)"});
-        onClick();
-    };
-    return tile;
-}
-
-function addLetter(letterObj) {
-    const firstEmpty = gameState.spelledLetters.findIndex(l => l === null);
-    if (firstEmpty !== -1) {
-        letterObj.used = true;
-        gameState.spelledLetters[firstEmpty] = letterObj;
-        renderSpellingBoard();
-        checkSpelling();
-    }
-}
-
-function removeLetter(slotIndex) {
-    const letterObj = gameState.spelledLetters[slotIndex];
-    if (letterObj) {
-        letterObj.used = false;
-        gameState.spelledLetters[slotIndex] = null;
-        renderSpellingBoard();
-    }
-}
-
-function checkSpelling() {
-    const currentWord = gameState.spelledLetters.map(l => l ? l.char : '').join('');
-    
-    if (currentWord.length === gameState.targetWord.length) {
-        if (currentWord === gameState.targetWord) {
-            // Correct!
-            sounds.success();
-            raccoonLaugh();
-            
-            // Animate tree quadrant
-            const seasonName = SEASONS[gameState.seasonIndex].name;
-            const treeQuad = document.getElementById(`tree-${seasonName}`);
-            
-            gsap.to(treeQuad, {
-                opacity: 1,
-                filter: "grayscale(0%)",
-                duration: 1.5,
-                ease: "power2.out"
-            });
-            
-            // Trigger specific foliage animations
-            animateFoliage(seasonName);
-
-            // Move to next after delay
-            setTimeout(() => {
-                gameState.seasonIndex++;
-                if (gameState.seasonIndex < SEASONS.length) {
-                    loadSpellingSeason();
-                } else {
-                    startScreen2();
-                }
-            }, 2500);
-
-        } else {
-            // Wrong spelling - shake slots
-            sounds.error();
-            gsap.to("#word-slots", {
-                x: [-10, 10, -10, 10, 0],
-                duration: 0.4,
-                ease: "power1.inOut"
-            });
-        }
-    }
-}
-
-/**
- * Foliage Animations (Emojis)
- */
-function animateFoliage(season) {
-    const items = document.querySelectorAll(`#tree-${season} .animate-items text`);
-    const outline = document.getElementById(`outline-${season}`);
-    
-    // Fade out dashed outline
-    if(outline) {
-        gsap.to(outline, {opacity: 0, duration: 1});
-    }
-    
-    if (season === 'SPRING') {
-        gsap.fromTo(items, 
-            { scale: 0, transformOrigin: "center" },
-            { scale: 1, duration: 1, stagger: 0.2, ease: "elastic.out(1, 0.5)", onComplete: () => {
-                // Rocking animation
-                gsap.to(items, { rotation: 15, duration: 2, yoyo: true, repeat: -1, ease: "sine.inOut", stagger: 0.1, transformOrigin: "bottom center" });
-            }}
-        );
-        // Start butterfly companion
-        startButterfly();
-    } else if (season === 'SUMMER') {
-        gsap.fromTo(items, 
-            { scale: 0, transformOrigin: "center" },
-            { scale: 1, duration: 1, stagger: 0.2, ease: "elastic.out(1, 0.5)", onComplete: () => {
-                // Rocking animation
-                gsap.to(items, { rotation: 10, duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut", stagger: 0.1, transformOrigin: "top center" });
-            }}
-        );
-        // Start caterpillar companion
-        startCaterpillar();
-    } else if (season === 'AUTUMN') {
-        gsap.fromTo(items, 
-            { y: -30, opacity: 0 },
-            { y: 150, opacity: 1, duration: 3, repeat: -1, ease: "none", stagger: 0.6 } // Falling
-        );
-        gsap.to(items, { x: 30, rotation: 45, duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut" }); // Swaying
-        // Start fox companion
-        startFox();
-    } else if (season === 'WINTER') {
-        gsap.fromTo(items, 
-            { y: -30, opacity: 0 },
-            { y: 150, opacity: 1, duration: 3.5, repeat: -1, ease: "none", stagger: 0.5 } // Falling
-        );
-        gsap.to(items, { x: -20, rotation: -30, duration: 1.7, yoyo: true, repeat: -1, ease: "sine.inOut" }); // Swaying
-        // Start rabbit companion
-        startRabbit();
-    }
-}
-
-/**
- * Butterfly Animation Controller
- */
-function startButterfly() {
-    const bfContainer = document.getElementById("spring-butterfly-container");
-    gsap.to(bfContainer, {opacity: 1, duration: 1});
-    
-    // Flying path over the tree
-    gsap.to(bfContainer, {
-        x: 180, y: -20, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut"
-    });
-    
-    // Flapping
-    gsap.to("#bf-left-wing", { scaleX: 0.3, svgOrigin: "190 190", duration: 0.35, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#bf-right-wing", { scaleX: 0.3, svgOrigin: "210 190", duration: 0.35, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    
-    // Bobbing & Antennae
-    gsap.to("#bf-butterfly-group", { y: -18, duration: 2, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#bf-left-antenna", { rotation: -12, svgOrigin: "185 75", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#bf-right-antenna", { rotation: 12, svgOrigin: "215 75", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Blinking loop for butterfly
-    function bfBlink() {
-        gsap.to(["#bf-left-eyelid", "#bf-right-eyelid"], {
-            y: 18, duration: 0.1, yoyo: true, repeat: 1,
-            onComplete: () => gsap.delayedCall(gsap.utils.random(2, 4), bfBlink)
-        });
-    }
-    gsap.delayedCall(2, bfBlink);
-}
-
-/**
- * Caterpillar Animation Controller
- */
-function startCaterpillar() {
-    const cpContainer = document.getElementById("summer-caterpillar-container");
-    gsap.to(cpContainer, {opacity: 1, duration: 1});
-    
-    // Crawling path over the summer tree branch
-    gsap.to(cpContainer, {
-        x: 340, duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut"
-    });
-
-    // Wavy body movement
-    gsap.to(".cp-part", {
-        y: -15, rotation: -3, transformOrigin: "center 80%", duration: 0.4,
-        stagger: { each: 0.12, repeat: -1, yoyo: true, from: "start" },
-        ease: "sine.inOut"
-    });
-
-    // Antennae jiggle
-    gsap.to("#cp-left-antenna", { rotation: -15, svgOrigin: "305 165", duration: 1.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#cp-right-antenna", { rotation: 15, svgOrigin: "345 165", duration: 1.3, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Blinking loop for caterpillar
-    function cpBlink() {
-        gsap.to(["#cp-left-eyelid", "#cp-right-eyelid"], {
-            y: 35, duration: 0.1, yoyo: true, repeat: 1,
-            onComplete: () => gsap.delayedCall(gsap.utils.random(2, 4), cpBlink)
-        });
-    }
-    gsap.delayedCall(2, cpBlink);
-}
-
-/**
- * Fox Animation Controller
- */
-function startFox() {
-    const foxContainer = document.getElementById("autumn-fox-container");
-    gsap.to(foxContainer, {opacity: 1, duration: 1});
-
-    // Pacing under the tree (closer to trunk)
-    gsap.to(foxContainer, {
-        x: 310, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut"
-    });
-
-    // Breathing
-    gsap.to("#fox-head", { y: 4, svgOrigin: "200 190", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#fox-body-group", { scaleY: 0.98, transformOrigin: "bottom center", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Elegant tail wag
-    gsap.to("#fox-tail-group", { rotation: 12, svgOrigin: "200 295", duration: 1.8, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Ears twitch
-    gsap.to("#fox-left-ear", { rotation: -8, svgOrigin: "155 120", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#fox-right-ear", { rotation: 8, svgOrigin: "245 120", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Arms swaying
-    gsap.to("#fox-left-arm", { rotation: 6, y: 3, svgOrigin: "142 215", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#fox-right-arm", { rotation: -6, y: 3, svgOrigin: "258 215", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Blinking loop for fox
-    function foxBlink() {
-        gsap.to(["#fox-left-eyelid", "#fox-right-eyelid"], {
-            y: 35, duration: 0.1, yoyo: true, repeat: 1,
-            onComplete: () => gsap.delayedCall(gsap.utils.random(2, 5), foxBlink)
-        });
-    }
-    gsap.delayedCall(2, foxBlink);
-}
-
-/**
- * Rabbit Animation Controller
- */
-function startRabbit() {
-    const rabbitContainer = document.getElementById("winter-rabbit-container");
-    gsap.to(rabbitContainer, {opacity: 1, duration: 1});
-
-    // Hopping path under the winter tree
-    gsap.to(rabbitContainer, {
-        x: 140, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut"
-    });
-
-    // Bouncing motion (y-axis jump)
-    gsap.to(rabbitContainer, {
-        y: "-=25", duration: 0.35, repeat: -1, yoyo: true, ease: "power1.out"
-    });
-
-    // Ears twitching dynamically
-    gsap.to("#rabbit-left-ear", { rotation: -25, transformOrigin: "bottom center", duration: 1.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#rabbit-right-ear", { rotation: 25, transformOrigin: "bottom center", duration: 1.3, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Breathing effect
-    gsap.to("#rabbit-body", { scaleY: 0.95, transformOrigin: "bottom center", duration: 0.7, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Arms swaying slightly
-    gsap.to("#rabbit-left-arm", { rotation: 15, transformOrigin: "top center", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#rabbit-right-arm", { rotation: -15, transformOrigin: "top center", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
-
-    // Blinking loop for rabbit
-    function rabbitBlink() {
-        gsap.to(["#rabbit-left-eyelid", "#rabbit-right-eyelid"], {
-            y: 35, duration: 0.1, yoyo: true, repeat: 1,
-            onComplete: () => gsap.delayedCall(gsap.utils.random(2, 5), rabbitBlink)
-        });
-    }
-    gsap.delayedCall(2, rabbitBlink);
-}
-
-/**
- * Screen 2 Logic (Drag & Drop)
- */
-function startScreen2() {
-    gameState.screen = 2;
-    document.getElementById('screen-1').classList.add('hidden');
-    document.getElementById('screen-2').classList.remove('hidden');
-    document.getElementById('drop-zones-container').classList.remove('hidden');
-    
-    // 拼写完成后隐藏小浣熊手中的物品
-    SEASONS.forEach(s => {
-        const itemEl = document.querySelector(s.item);
-        if (itemEl) itemEl.classList.add('hidden');
-    });
-
-    setupDragAndDrop();
-}
-
-function setupDragAndDrop() {
-    const words = document.querySelectorAll('.word-badge');
-    
-    words.forEach(word => {
-        let isDragging = false;
-        let startX, startY;
-        let initRect;
-
-        // Clean up previous event listeners if restarting
-        const newWord = word.cloneNode(true);
-        word.parentNode.replaceChild(newWord, word);
-        const activeWord = newWord;
-
-        activeWord.addEventListener('pointerdown', (e) => {
-            isDragging = true;
-            activeWord.setPointerCapture(e.pointerId);
-            sounds.click();
-            
-            initRect = activeWord.getBoundingClientRect();
-            activeWord.classList.add('dragging');
-            
-            activeWord.style.position = 'fixed';
-            activeWord.style.left = initRect.left + 'px';
-            activeWord.style.top = initRect.top + 'px';
-            activeWord.style.margin = '0';
-            
-            startX = e.clientX - initRect.left;
-            startY = e.clientY - initRect.top;
-        });
-
-        activeWord.addEventListener('pointermove', (e) => {
-            if (!isDragging) return;
-            activeWord.style.left = (e.clientX - startX) + 'px';
-            activeWord.style.top = (e.clientY - startY) + 'px';
-        });
-
-        activeWord.addEventListener('pointerup', (e) => {
-            if (!isDragging) return;
-            isDragging = false;
-            activeWord.releasePointerCapture(e.pointerId);
-            activeWord.classList.remove('dragging');
-            
-            activeWord.style.display = 'none';
-            const elUnder = document.elementFromPoint(e.clientX, e.clientY);
-            activeWord.style.display = 'inline-block';
-            
-            const dropZone = elUnder ? elUnder.closest('.drop-zone') : null;
-            
-            if (dropZone && dropZone.dataset.season === activeWord.dataset.season) {
-                // Correct match
-                sounds.pop();
-                
-                activeWord.style.position = 'static';
-                activeWord.style.left = '';
-                activeWord.style.top = '';
-                activeWord.style.margin = '';
-                
-                dropZone.appendChild(activeWord);
-                activeWord.style.pointerEvents = 'none'; // Lock it
-                
-                gsap.from(activeWord, {scale: 0, duration: 0.5, ease: "back.out(1.5)"});
-                
-                gameState.matchesFound++;
-                if (gameState.matchesFound >= 4) {
-                    setTimeout(startScreen3, 1000);
-                }
-            } else {
-                // Wrong or dropped outside - float back
-                sounds.error();
-                gsap.to(activeWord, {
-                    left: initRect.left,
-                    top: initRect.top,
-                    duration: 0.4,
-                    ease: "power2.out",
-                    onComplete: () => {
-                        activeWord.style.position = 'relative';
-                        activeWord.style.left = '';
-                        activeWord.style.top = '';
+        // Music muted by default; toggle button starts/stops and switches icon (🔇 / 🔉)
+        window.addEventListener('load', function () {
+            var bgMusic = document.getElementById('bg-music');
+            var toggleBtn = document.getElementById('music-toggle');
+            if (bgMusic && toggleBtn) {
+                bgMusic.volume = BG_MUSIC_VOLUME;
+                bgMusic.muted = true;
+                toggleBtn.addEventListener('click', function () {
+                    if (bgMusic.muted || bgMusic.paused) {
+                        bgMusic.muted = false;
+                        bgMusic.play().catch(function () { });
+                        toggleBtn.textContent = '🔉';
+                        toggleBtn.setAttribute('aria-label', 'Mute music');
+                    } else {
+                        bgMusic.muted = true;
+                        bgMusic.pause();
+                        toggleBtn.textContent = '🔇';
+                        toggleBtn.setAttribute('aria-label', 'Unmute music');
                     }
                 });
             }
         });
-    });
-}
 
-/**
- * Screen 3 Logic (Win)
- */
-function startScreen3() {
-    gameState.screen = 3;
-    document.getElementById('screen-2').classList.add('hidden');
-    document.getElementById('drop-zones-container').classList.add('hidden');
-    document.getElementById('screen-3').classList.remove('hidden');
-    
-    sounds.win();
-    raccoonLaugh();
-    fireConfetti();
-}
+        /**
+         * Game Data & State
+         */
+        const SEASONS = [
+            { name: 'SPRING', item: '#item-spring', color: 'var(--lime-500)' },
+            { name: 'SUMMER', item: '#item-summer', color: 'var(--brand-500)' },
+            { name: 'AUTUMN', item: '#item-autumn', color: 'var(--coral-600)' },
+            { name: 'WINTER', item: '#item-winter', color: 'var(--brand-link)' }
+        ];
 
-/**
- * Effects & Animations
- */
-function fireConfetti() {
-    const canvas = document.getElementById('confetti-canvas');
-    canvas.classList.remove('hidden');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+        let gameState = {
+            screen: 1,
+            seasonIndex: 0,
+            spelledLetters: [],
+            targetWord: '',
+            availableLetters: [],
+            matchesFound: 0
+        };
 
-    const particles = [];
-    const colors = ['#F06090', '#52C3AD', '#FFCE58', '#ECA96F'];
-
-    for(let i=0; i<100; i++) {
-        particles.push({
-            x: canvas.width / 2,
-            y: canvas.height / 2,
-            vx: (Math.random() - 0.5) * 20,
-            vy: (Math.random() - 0.5) * 20 - 5,
-            size: Math.random() * 8 + 4,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            life: 1
-        });
-    }
-
-    function render() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        let active = false;
-        particles.forEach(p => {
-            if (p.life > 0) {
-                active = true;
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.5; // gravity
-                p.life -= 0.01;
-                
-                ctx.globalAlpha = Math.max(0, p.life);
-                ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI*2);
-                ctx.fill();
+        /**
+         * Audio System (Web Audio API)
+         */
+        let audioCtx = null;
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             }
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playTone(freq, type, duration, vol = 0.1) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        const sounds = {
+            pop: () => playTone(600, 'sine', 0.1, 0.2),
+            click: () => playTone(400, 'sine', 0.05, 0.1),
+            success: () => {
+                playTone(400, 'sine', 0.1, 0.2);
+                setTimeout(() => playTone(500, 'sine', 0.1, 0.2), 100);
+                setTimeout(() => playTone(600, 'sine', 0.2, 0.2), 200);
+            },
+            error: () => playTone(200, 'sawtooth', 0.3, 0.1),
+            win: () => {
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
+                    setTimeout(() => playTone(freq, 'sine', 0.3, 0.2), i * 150);
+                });
+            }
+        };
+
+        /**
+         * Screen 1 Logic (Spelling)
+         */
+        function loadSpellingSeason() {
+            const season = SEASONS[gameState.seasonIndex];
+            gameState.targetWord = season.name;
+            gameState.spelledLetters = new Array(season.name.length).fill(null);
+
+            // Setup available letters (scrambled)
+            gameState.availableLetters = season.name.split('').map((char, id) => ({ char, id }));
+            gameState.availableLetters.sort(() => Math.random() - 0.5);
+
+            // Update Raccoon Holding Item
+            SEASONS.forEach(s => document.querySelector(s.item).classList.add('hidden'));
+            document.querySelector(season.item).classList.remove('hidden');
+
+            renderSpellingBoard();
+        }
+
+        function renderSpellingBoard() {
+            const slotsEl = document.getElementById('word-slots');
+            const bankEl = document.getElementById('letter-bank');
+
+            slotsEl.innerHTML = '';
+            bankEl.innerHTML = '';
+
+            // Render Slots
+            gameState.spelledLetters.forEach((letterObj, index) => {
+                const slot = document.createElement('div');
+                slot.className = 'letter-slot';
+
+                if (letterObj) {
+                    const tile = createTile(letterObj, () => removeLetter(index));
+                    slot.appendChild(tile);
+                }
+                slotsEl.appendChild(slot);
+            });
+
+            // Render Bank
+            gameState.availableLetters.forEach((letterObj) => {
+                if (!letterObj.used) {
+                    const tile = createTile(letterObj, () => addLetter(letterObj));
+                    bankEl.appendChild(tile);
+                }
+            });
+        }
+
+        function createTile(letterObj, onClick) {
+            const tile = document.createElement('div');
+            tile.className = 'letter-tile';
+            tile.innerText = letterObj.char;
+            tile.onclick = () => {
+                sounds.click();
+                gsap.fromTo(tile, { scale: 0.8 }, { scale: 1, duration: 0.2, ease: "back.out(1.7)" });
+                onClick();
+            };
+            return tile;
+        }
+
+        function addLetter(letterObj) {
+            const firstEmpty = gameState.spelledLetters.findIndex(l => l === null);
+            if (firstEmpty !== -1) {
+                letterObj.used = true;
+                gameState.spelledLetters[firstEmpty] = letterObj;
+                renderSpellingBoard();
+                checkSpelling();
+            }
+        }
+
+        function removeLetter(slotIndex) {
+            const letterObj = gameState.spelledLetters[slotIndex];
+            if (letterObj) {
+                letterObj.used = false;
+                gameState.spelledLetters[slotIndex] = null;
+                renderSpellingBoard();
+            }
+        }
+
+        function checkSpelling() {
+            const currentWord = gameState.spelledLetters.map(l => l ? l.char : '').join('');
+
+            if (currentWord.length === gameState.targetWord.length) {
+                if (currentWord === gameState.targetWord) {
+                    // Correct!
+                    sounds.success();
+                    raccoonLaugh();
+
+                    // Animate tree quadrant
+                    const seasonName = SEASONS[gameState.seasonIndex].name;
+                    const treeQuad = document.getElementById(`tree-${seasonName}`);
+
+                    gsap.to(treeQuad, {
+                        opacity: 1,
+                        filter: "grayscale(0%)",
+                        duration: 1.5,
+                        ease: "power2.out"
+                    });
+
+                    // Trigger specific foliage animations
+                    animateFoliage(seasonName);
+
+                    // Move to next after delay
+                    setTimeout(() => {
+                        gameState.seasonIndex++;
+                        if (gameState.seasonIndex < SEASONS.length) {
+                            loadSpellingSeason();
+                        } else {
+                            startScreen2();
+                        }
+                    }, 2500);
+
+                } else {
+                    // Wrong spelling - shake slots
+                    sounds.error();
+                    gsap.to("#word-slots", {
+                        x: [-10, 10, -10, 10, 0],
+                        duration: 0.4,
+                        ease: "power1.inOut"
+                    });
+                }
+            }
+        }
+
+        /**
+         * Foliage Animations (Emojis)
+         */
+        function animateFoliage(season) {
+            const items = document.querySelectorAll(`#tree-${season} .animate-items text`);
+            const outline = document.getElementById(`outline-${season}`);
+
+            // Fade out dashed outline
+            if (outline) {
+                gsap.to(outline, { opacity: 0, duration: 1 });
+            }
+
+            if (season === 'SPRING') {
+                gsap.fromTo(items,
+                    { scale: 0, transformOrigin: "center" },
+                    {
+                        scale: 1, duration: 1, stagger: 0.2, ease: "elastic.out(1, 0.5)", onComplete: () => {
+                            // Rocking animation
+                            gsap.to(items, { rotation: 15, duration: 2, yoyo: true, repeat: -1, ease: "sine.inOut", stagger: 0.1, transformOrigin: "bottom center" });
+                        }
+                    }
+                );
+                // Start butterfly companion
+                startButterfly();
+            } else if (season === 'SUMMER') {
+                gsap.fromTo(items,
+                    { scale: 0, transformOrigin: "center" },
+                    {
+                        scale: 1, duration: 1, stagger: 0.2, ease: "elastic.out(1, 0.5)", onComplete: () => {
+                            // Rocking animation
+                            gsap.to(items, { rotation: 10, duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut", stagger: 0.1, transformOrigin: "top center" });
+                        }
+                    }
+                );
+                // Start caterpillar companion
+                startCaterpillar();
+            } else if (season === 'AUTUMN') {
+                gsap.fromTo(items,
+                    { y: -30, opacity: 0 },
+                    { y: 150, opacity: 1, duration: 3, repeat: -1, ease: "none", stagger: 0.6 } // Falling
+                );
+                gsap.to(items, { x: 30, rotation: 45, duration: 1.5, yoyo: true, repeat: -1, ease: "sine.inOut" }); // Swaying
+                // Start fox companion
+                startFox();
+            } else if (season === 'WINTER') {
+                gsap.fromTo(items,
+                    { y: -30, opacity: 0 },
+                    { y: 150, opacity: 1, duration: 3.5, repeat: -1, ease: "none", stagger: 0.5 } // Falling
+                );
+                gsap.to(items, { x: -20, rotation: -30, duration: 1.7, yoyo: true, repeat: -1, ease: "sine.inOut" }); // Swaying
+                // Start rabbit companion
+                startRabbit();
+            }
+        }
+
+        /**
+         * Butterfly Animation Controller
+         */
+        function startButterfly() {
+            const bfContainer = document.getElementById("spring-butterfly-container");
+            gsap.to(bfContainer, { opacity: 1, duration: 1 });
+
+            // Flying path over the tree
+            gsap.to(bfContainer, {
+                x: 180, y: -20, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+
+            // Flapping
+            gsap.to("#bf-left-wing", { scaleX: 0.3, svgOrigin: "190 190", duration: 0.35, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#bf-right-wing", { scaleX: 0.3, svgOrigin: "210 190", duration: 0.35, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Bobbing & Antennae
+            gsap.to("#bf-butterfly-group", { y: -18, duration: 2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#bf-left-antenna", { rotation: -12, svgOrigin: "185 75", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#bf-right-antenna", { rotation: 12, svgOrigin: "215 75", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Blinking loop for butterfly
+            function bfBlink() {
+                gsap.to(["#bf-left-eyelid", "#bf-right-eyelid"], {
+                    y: 18, duration: 0.1, yoyo: true, repeat: 1,
+                    onComplete: () => gsap.delayedCall(gsap.utils.random(2, 4), bfBlink)
+                });
+            }
+            gsap.delayedCall(2, bfBlink);
+        }
+
+        /**
+         * Caterpillar Animation Controller
+         */
+        function startCaterpillar() {
+            const cpContainer = document.getElementById("summer-caterpillar-container");
+            gsap.to(cpContainer, { opacity: 1, duration: 1 });
+
+            // Crawling path over the summer tree branch
+            gsap.to(cpContainer, {
+                x: 340, duration: 6, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+
+            // Wavy body movement
+            gsap.to(".cp-part", {
+                y: -15, rotation: -3, transformOrigin: "center 80%", duration: 0.4,
+                stagger: { each: 0.12, repeat: -1, yoyo: true, from: "start" },
+                ease: "sine.inOut"
+            });
+
+            // Antennae jiggle
+            gsap.to("#cp-left-antenna", { rotation: -15, svgOrigin: "305 165", duration: 1.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#cp-right-antenna", { rotation: 15, svgOrigin: "345 165", duration: 1.3, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Blinking loop for caterpillar
+            function cpBlink() {
+                gsap.to(["#cp-left-eyelid", "#cp-right-eyelid"], {
+                    y: 35, duration: 0.1, yoyo: true, repeat: 1,
+                    onComplete: () => gsap.delayedCall(gsap.utils.random(2, 4), cpBlink)
+                });
+            }
+            gsap.delayedCall(2, cpBlink);
+        }
+
+        /**
+         * Fox Animation Controller
+         */
+        function startFox() {
+            const foxContainer = document.getElementById("autumn-fox-container");
+            gsap.to(foxContainer, { opacity: 1, duration: 1 });
+
+            // Pacing under the tree (closer to trunk)
+            gsap.to(foxContainer, {
+                x: 310, duration: 5, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+
+            // Breathing
+            gsap.to("#fox-head", { y: 4, svgOrigin: "200 190", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#fox-body-group", { scaleY: 0.98, transformOrigin: "bottom center", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Elegant tail wag
+            gsap.to("#fox-tail-group", { rotation: 12, svgOrigin: "200 295", duration: 1.8, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Ears twitch
+            gsap.to("#fox-left-ear", { rotation: -8, svgOrigin: "155 120", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#fox-right-ear", { rotation: 8, svgOrigin: "245 120", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Arms swaying
+            gsap.to("#fox-left-arm", { rotation: 6, y: 3, svgOrigin: "142 215", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#fox-right-arm", { rotation: -6, y: 3, svgOrigin: "258 215", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Blinking loop for fox
+            function foxBlink() {
+                gsap.to(["#fox-left-eyelid", "#fox-right-eyelid"], {
+                    y: 35, duration: 0.1, yoyo: true, repeat: 1,
+                    onComplete: () => gsap.delayedCall(gsap.utils.random(2, 5), foxBlink)
+                });
+            }
+            gsap.delayedCall(2, foxBlink);
+        }
+
+        /**
+         * Rabbit Animation Controller
+         */
+        function startRabbit() {
+            const rabbitContainer = document.getElementById("winter-rabbit-container");
+            gsap.to(rabbitContainer, { opacity: 1, duration: 1 });
+
+            // Hopping path under the winter tree
+            gsap.to(rabbitContainer, {
+                x: 140, duration: 4, repeat: -1, yoyo: true, ease: "sine.inOut"
+            });
+
+            // Bouncing motion (y-axis jump)
+            gsap.to(rabbitContainer, {
+                y: "-=25", duration: 0.35, repeat: -1, yoyo: true, ease: "power1.out"
+            });
+
+            // Ears twitching dynamically
+            gsap.to("#rabbit-left-ear", { rotation: -25, transformOrigin: "bottom center", duration: 1.2, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#rabbit-right-ear", { rotation: 25, transformOrigin: "bottom center", duration: 1.3, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Breathing effect
+            gsap.to("#rabbit-body", { scaleY: 0.95, transformOrigin: "bottom center", duration: 0.7, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Arms swaying slightly
+            gsap.to("#rabbit-left-arm", { rotation: 15, transformOrigin: "top center", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#rabbit-right-arm", { rotation: -15, transformOrigin: "top center", duration: 1.4, repeat: -1, yoyo: true, ease: "sine.inOut" });
+
+            // Blinking loop for rabbit
+            function rabbitBlink() {
+                gsap.to(["#rabbit-left-eyelid", "#rabbit-right-eyelid"], {
+                    y: 35, duration: 0.1, yoyo: true, repeat: 1,
+                    onComplete: () => gsap.delayedCall(gsap.utils.random(2, 5), rabbitBlink)
+                });
+            }
+            gsap.delayedCall(2, rabbitBlink);
+        }
+
+        /**
+         * Screen 2 Logic (Drag & Drop)
+         */
+        function startScreen2() {
+            gameState.screen = 2;
+            document.getElementById('screen-1').classList.add('hidden');
+            document.getElementById('screen-2').classList.remove('hidden');
+            document.getElementById('drop-zones-container').classList.remove('hidden');
+
+            // 拼写完成后隐藏小浣熊手中的物品
+            SEASONS.forEach(s => {
+                const itemEl = document.querySelector(s.item);
+                if (itemEl) itemEl.classList.add('hidden');
+            });
+
+            setupDragAndDrop();
+        }
+
+        function setupDragAndDrop() {
+            const words = document.querySelectorAll('.word-badge');
+
+            words.forEach(word => {
+                let isDragging = false;
+                let startX, startY;
+                let initRect;
+
+                // Clean up previous event listeners if restarting
+                const newWord = word.cloneNode(true);
+                word.parentNode.replaceChild(newWord, word);
+                const activeWord = newWord;
+
+                activeWord.addEventListener('pointerdown', (e) => {
+                    isDragging = true;
+                    activeWord.setPointerCapture(e.pointerId);
+                    sounds.click();
+
+                    initRect = activeWord.getBoundingClientRect();
+                    activeWord.classList.add('dragging');
+
+                    activeWord.style.position = 'fixed';
+                    activeWord.style.left = initRect.left + 'px';
+                    activeWord.style.top = initRect.top + 'px';
+                    activeWord.style.margin = '0';
+
+                    startX = e.clientX - initRect.left;
+                    startY = e.clientY - initRect.top;
+                });
+
+                activeWord.addEventListener('pointermove', (e) => {
+                    if (!isDragging) return;
+                    activeWord.style.left = (e.clientX - startX) + 'px';
+                    activeWord.style.top = (e.clientY - startY) + 'px';
+                });
+
+                activeWord.addEventListener('pointerup', (e) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    activeWord.releasePointerCapture(e.pointerId);
+                    activeWord.classList.remove('dragging');
+
+                    activeWord.style.display = 'none';
+                    const elUnder = document.elementFromPoint(e.clientX, e.clientY);
+                    activeWord.style.display = 'inline-block';
+
+                    const dropZone = elUnder ? elUnder.closest('.drop-zone') : null;
+
+                    if (dropZone && dropZone.dataset.season === activeWord.dataset.season) {
+                        // Correct match
+                        sounds.pop();
+
+                        activeWord.style.position = 'static';
+                        activeWord.style.left = '';
+                        activeWord.style.top = '';
+                        activeWord.style.margin = '';
+
+                        dropZone.appendChild(activeWord);
+                        activeWord.style.pointerEvents = 'none'; // Lock it
+
+                        gsap.from(activeWord, { scale: 0, duration: 0.5, ease: "back.out(1.5)" });
+
+                        gameState.matchesFound++;
+                        if (gameState.matchesFound >= 4) {
+                            setTimeout(startScreen3, 1000);
+                        }
+                    } else {
+                        // Wrong or dropped outside - float back
+                        sounds.error();
+                        gsap.to(activeWord, {
+                            left: initRect.left,
+                            top: initRect.top,
+                            duration: 0.4,
+                            ease: "power2.out",
+                            onComplete: () => {
+                                activeWord.style.position = 'relative';
+                                activeWord.style.left = '';
+                                activeWord.style.top = '';
+                            }
+                        });
+                    }
+                });
+            });
+        }
+
+        /**
+         * Screen 3 Logic (Win)
+         */
+        function startScreen3() {
+            gameState.screen = 3;
+            document.getElementById('screen-2').classList.add('hidden');
+            document.getElementById('drop-zones-container').classList.add('hidden');
+            document.getElementById('screen-3').classList.remove('hidden');
+
+            sounds.win();
+            raccoonLaugh();
+            fireConfetti();
+        }
+
+        /**
+         * Effects & Animations
+         */
+        function fireConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            canvas.classList.remove('hidden');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#F06090', '#52C3AD', '#FFCE58', '#ECA96F'];
+
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2,
+                    vx: (Math.random() - 0.5) * 20,
+                    vy: (Math.random() - 0.5) * 20 - 5,
+                    size: Math.random() * 8 + 4,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    life: 1
+                });
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                let active = false;
+                particles.forEach(p => {
+                    if (p.life > 0) {
+                        active = true;
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.5; // gravity
+                        p.life -= 0.01;
+
+                        ctx.globalAlpha = Math.max(0, p.life);
+                        ctx.fillStyle = p.color;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                });
+
+                if (active) requestAnimationFrame(render);
+                else canvas.classList.add('hidden');
+            }
+            render();
+        }
+
+        // Raccoon Idle Animation
+        function startIdleAnimations() {
+            gsap.to("#head", { y: 4, svgOrigin: "200 190", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#body-group", { scaleY: 0.98, transformOrigin: "bottom center", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#tail-group", { rotation: 10, svgOrigin: "200 295", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#left-arm", { rotation: 6, y: 4, svgOrigin: "140 210", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+            gsap.to("#right-arm", { rotation: -6, y: 4, svgOrigin: "260 210", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
+        }
+
+        function blink() {
+            gsap.to(["#left-eyelid", "#right-eyelid"], {
+                y: 35, duration: 0.1, yoyo: true, repeat: 1,
+                onComplete: () => gsap.delayedCall(gsap.utils.random(2, 5), blink)
+            });
+        }
+
+        function raccoonLaugh() {
+            const bounces = 8;
+            gsap.to("#mouth-normal", { opacity: 0, duration: 0.1 });
+            gsap.to("#mouth-laugh", { opacity: 1, duration: 0.1 });
+            gsap.to(["#left-eyelid", "#right-eyelid"], { y: 20, duration: 0.15, overwrite: true });
+
+            gsap.to("#body-group", { y: -8, duration: 0.11, repeat: bounces, yoyo: true, ease: "power1.inOut" });
+            gsap.to("#head", { y: -6, duration: 0.11, repeat: bounces, yoyo: true, ease: "power1.inOut" });
+            gsap.to("#left-arm", { rotation: -18, y: -10, svgOrigin: "140 210", duration: 0.18, repeat: bounces / 2, yoyo: true });
+            gsap.to("#right-arm", { rotation: 18, y: -10, svgOrigin: "260 210", duration: 0.18, repeat: bounces / 2, yoyo: true });
+
+            setTimeout(() => {
+                gsap.to("#mouth-normal", { opacity: 1, duration: 0.2 });
+                gsap.to("#mouth-laugh", { opacity: 0, duration: 0.2 });
+                gsap.to(["#left-eyelid", "#right-eyelid"], { y: 0, duration: 0.3, overwrite: true });
+                startIdleAnimations();
+            }, (bounces * 0.11 * 1000) + 100);
+        }
+
+        /**
+         * Init & Events
+         */
+        document.getElementById('start-btn').addEventListener('click', () => {
+            initAudio();
+            document.getElementById('start-overlay').classList.add('hidden');
+            startIdleAnimations();
+            gsap.delayedCall(1, blink);
+            loadSpellingSeason();
         });
-        
-        if(active) requestAnimationFrame(render);
-        else canvas.classList.add('hidden');
-    }
-    render();
-}
 
-// Raccoon Idle Animation
-function startIdleAnimations() {
-    gsap.to("#head", { y: 4, svgOrigin: "200 190", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#body-group", { scaleY: 0.98, transformOrigin: "bottom center", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#tail-group", { rotation: 10, svgOrigin: "200 295", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#left-arm", { rotation: 6, y: 4, svgOrigin: "140 210", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-    gsap.to("#right-arm", { rotation: -6, y: 4, svgOrigin: "260 210", duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
-}
+        document.getElementById('restart-btn').addEventListener('click', () => {
+            sounds.click();
 
-function blink() {
-    gsap.to(["#left-eyelid", "#right-eyelid"], {
-        y: 35, duration: 0.1, yoyo: true, repeat: 1,
-        onComplete: () => gsap.delayedCall(gsap.utils.random(2, 5), blink)
-    });
-}
+            // Reset state
+            gameState.screen = 1;
+            gameState.seasonIndex = 0;
+            gameState.matchesFound = 0;
 
-function raccoonLaugh() {
-    const bounces = 8;
-    gsap.to("#mouth-normal", { opacity: 0, duration: 0.1 });
-    gsap.to("#mouth-laugh",  { opacity: 1, duration: 0.1 });
-    gsap.to(["#left-eyelid", "#right-eyelid"], { y: 20, duration: 0.15, overwrite: true });
-    
-    gsap.to("#body-group", { y: -8, duration: 0.11, repeat: bounces, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#head", { y: -6, duration: 0.11, repeat: bounces, yoyo: true, ease: "power1.inOut" });
-    gsap.to("#left-arm", { rotation: -18, y: -10, svgOrigin: "140 210", duration: 0.18, repeat: bounces/2, yoyo: true });
-    gsap.to("#right-arm", { rotation: 18, y: -10, svgOrigin: "260 210", duration: 0.18, repeat: bounces/2, yoyo: true });
-    
-    setTimeout(() => {
-        gsap.to("#mouth-normal", { opacity: 1, duration: 0.2 });
-        gsap.to("#mouth-laugh",  { opacity: 0, duration: 0.2 });
-        gsap.to(["#left-eyelid", "#right-eyelid"], { y: 0, duration: 0.3, overwrite: true });
-        startIdleAnimations();
-    }, (bounces * 0.11 * 1000) + 100);
-}
+            // Restore dashed outlines
+            gsap.set(".tree-outline", { opacity: 1 });
 
-/**
- * Init & Events
- */
-document.getElementById('start-btn').addEventListener('click', () => {
-    initAudio();
-    document.getElementById('start-overlay').classList.add('hidden');
-    startIdleAnimations();
-    gsap.delayedCall(1, blink);
-    loadSpellingSeason();
-});
+            // Reset butterfly
+            gsap.set("#spring-butterfly-container", { opacity: 0, x: 10, y: 20 });
+            gsap.killTweensOf("#spring-butterfly-container");
 
-document.getElementById('restart-btn').addEventListener('click', () => {
-    sounds.click();
-    
-    // Reset state
-    gameState.screen = 1;
-    gameState.seasonIndex = 0;
-    gameState.matchesFound = 0;
-    
-    // Restore dashed outlines
-    gsap.set(".tree-outline", {opacity: 1});
+            // Reset caterpillar
+            gsap.set("#summer-caterpillar-container", { opacity: 0, x: 280, y: 180 });
+            gsap.killTweensOf("#summer-caterpillar-container");
+            gsap.killTweensOf(".cp-part");
+            gsap.killTweensOf("#cp-left-antenna");
+            gsap.killTweensOf("#cp-right-antenna");
 
-    // Reset butterfly
-    gsap.set("#spring-butterfly-container", {opacity: 0, x: 10, y: 20});
-    gsap.killTweensOf("#spring-butterfly-container");
+            // Reset fox
+            gsap.set("#autumn-fox-container", { opacity: 0, x: 260, y: 430 });
+            gsap.killTweensOf("#autumn-fox-container");
+            gsap.killTweensOf("#fox-head");
+            gsap.killTweensOf("#fox-body-group");
+            gsap.killTweensOf("#fox-tail-group");
+            gsap.killTweensOf("#fox-left-ear");
+            gsap.killTweensOf("#fox-right-ear");
+            gsap.killTweensOf("#fox-left-arm");
+            gsap.killTweensOf("#fox-right-arm");
 
-    // Reset caterpillar
-    gsap.set("#summer-caterpillar-container", {opacity: 0, x: 280, y: 180});
-    gsap.killTweensOf("#summer-caterpillar-container");
-    gsap.killTweensOf(".cp-part");
-    gsap.killTweensOf("#cp-left-antenna");
-    gsap.killTweensOf("#cp-right-antenna");
+            // Reset rabbit
+            gsap.set("#winter-rabbit-container", { opacity: 0, x: 80, y: 433 });
+            gsap.killTweensOf("#winter-rabbit-container");
+            gsap.killTweensOf("#rabbit-left-ear");
+            gsap.killTweensOf("#rabbit-right-ear");
+            gsap.killTweensOf("#rabbit-body");
+            gsap.killTweensOf("#rabbit-left-arm");
+            gsap.killTweensOf("#rabbit-right-arm");
 
-    // Reset fox
-    gsap.set("#autumn-fox-container", {opacity: 0, x: 260, y: 430});
-    gsap.killTweensOf("#autumn-fox-container");
-    gsap.killTweensOf("#fox-head");
-    gsap.killTweensOf("#fox-body-group");
-    gsap.killTweensOf("#fox-tail-group");
-    gsap.killTweensOf("#fox-left-ear");
-    gsap.killTweensOf("#fox-right-ear");
-    gsap.killTweensOf("#fox-left-arm");
-    gsap.killTweensOf("#fox-right-arm");
+            // Reset Tree visually
+            SEASONS.forEach(season => {
+                const treeQuad = document.getElementById(`tree-${season.name}`);
+                gsap.killTweensOf(treeQuad);
+                gsap.set(treeQuad, { opacity: 0.2, filter: "grayscale(100%)" });
 
-    // Reset rabbit
-    gsap.set("#winter-rabbit-container", {opacity: 0, x: 80, y: 433});
-    gsap.killTweensOf("#winter-rabbit-container");
-    gsap.killTweensOf("#rabbit-left-ear");
-    gsap.killTweensOf("#rabbit-right-ear");
-    gsap.killTweensOf("#rabbit-body");
-    gsap.killTweensOf("#rabbit-left-arm");
-    gsap.killTweensOf("#rabbit-right-arm");
+                // Reset Emojis
+                const items = treeQuad.querySelectorAll('.animate-items text');
+                gsap.killTweensOf(items);
+                gsap.set(items, { clearProps: "all" });
+                if (season.name === 'AUTUMN' || season.name === 'WINTER') {
+                    gsap.set(items, { opacity: 0 });
+                }
 
-    // Reset Tree visually
-    SEASONS.forEach(season => {
-        const treeQuad = document.getElementById(`tree-${season.name}`);
-        gsap.killTweensOf(treeQuad);
-        gsap.set(treeQuad, {opacity: 0.2, filter: "grayscale(100%)"});
-        
-        // Reset Emojis
-        const items = treeQuad.querySelectorAll('.animate-items text');
-        gsap.killTweensOf(items);
-        gsap.set(items, {clearProps: "all"});
-        if (season.name === 'AUTUMN' || season.name === 'WINTER') {
-            gsap.set(items, {opacity: 0});
-        }
-        
-        // Reset screen 2 words back to container
-        const wordEl = document.querySelector(`.word-badge[data-season="${season.name}"]`);
-        if (wordEl) {
-            wordEl.style.pointerEvents = 'auto';
-            document.getElementById('draggable-words').appendChild(wordEl);
-        }
-    });
+                // Reset screen 2 words back to container
+                const wordEl = document.querySelector(`.word-badge[data-season="${season.name}"]`);
+                if (wordEl) {
+                    wordEl.style.pointerEvents = 'auto';
+                    document.getElementById('draggable-words').appendChild(wordEl);
+                }
+            });
 
-    document.getElementById('screen-3').classList.add('hidden');
-    document.getElementById('screen-1').classList.remove('hidden');
-    
-    loadSpellingSeason();
-});
+            document.getElementById('screen-3').classList.add('hidden');
+            document.getElementById('screen-1').classList.remove('hidden');
 
-</script>
+            loadSpellingSeason();
+        });
+
+    </script>
 </body>
+
 </html>

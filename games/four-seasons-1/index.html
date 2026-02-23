@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -38,7 +39,7 @@
             --text: #2D2D2D;
             --text-2: #5B6470;
             --on-color: #FFFFFF;
-            
+
             /* App Settings */
             --font-family: 'Comic Sans MS', 'Chalkboard SE', 'Nunito', 'Quicksand', sans-serif;
         }
@@ -50,9 +51,11 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            user-select: none; /* Disable text selection for app-like feel */
+            user-select: none;
+            /* Disable text selection for app-like feel */
             -webkit-user-select: none;
-            touch-action: none; /* Disable double-tap to zoom, handled by custom events */
+            touch-action: none;
+            /* Disable double-tap to zoom, handled by custom events */
         }
 
         body {
@@ -67,7 +70,12 @@
             align-items: center;
         }
 
-        h1, h2, h3 { color: var(--text); text-align: center; }
+        h1,
+        h2,
+        h3 {
+            color: var(--text);
+            text-align: center;
+        }
 
         /* =========================================================
            3. LAYOUT & SCREENS
@@ -82,8 +90,10 @@
 
         .screen {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -102,7 +112,10 @@
         #portrait-warning {
             display: none;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: var(--brand-500);
             color: var(--on-color);
             z-index: 9999;
@@ -115,7 +128,9 @@
         }
 
         @media screen and (orientation: portrait) {
-            #portrait-warning { display: flex; }
+            #portrait-warning {
+                display: flex;
+            }
         }
 
         /* Split-screen Game Layout */
@@ -196,7 +211,7 @@
         /* =========================================================
            5. INTERACTIVE AREAS (Spelling & Drag)
            ========================================================= */
-        
+
         /* Spelling Section */
         #spelling-container {
             display: flex;
@@ -206,7 +221,8 @@
             flex: 1;
         }
 
-        .slots-row, .letters-row {
+        .slots-row,
+        .letters-row {
             display: flex;
             gap: 2vmin;
             margin-bottom: 2.5vmin;
@@ -249,7 +265,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         }
 
         .letter-btn:active {
@@ -293,25 +309,30 @@
             z-index: 100;
             border-radius: 50%;
             background: var(--bg);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
             transition: transform 0.2s, box-shadow 0.2s;
         }
-        .drag-token:active { cursor: grabbing; }
+
+        .drag-token:active {
+            cursor: grabbing;
+        }
 
         .drag-token svg {
             width: 60%;
             height: 60%;
-            pointer-events: none; /* Let parent handle events */
+            pointer-events: none;
+            /* Let parent handle events */
         }
 
         .token-dragging {
             position: fixed !important;
-            pointer-events: none; /* Allows elementFromPoint to see underneath */
+            pointer-events: none;
+            /* Allows elementFromPoint to see underneath */
             transform: scale(1.1);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             z-index: 9999 !important;
             margin: 0 !important;
         }
@@ -329,7 +350,8 @@
             border-radius: 50%;
             box-shadow: 0 12px 30px rgba(122, 135, 150, 0.15);
             border: 8px solid var(--chrome);
-            overflow: hidden; /* Makes it a perfect circle */
+            overflow: hidden;
+            /* Makes it a perfect circle */
         }
 
         .map-grid {
@@ -352,10 +374,21 @@
         }
 
         /* Order: Q1 Spring(TL), Q2 Summer(TR), Q3 Autumn(BL), Q4 Winter(BR) */
-        .quad-0 { background: var(--lime-500); }
-        .quad-1 { background: var(--brand-400); }
-        .quad-2 { background: var(--yellow-400); }
-        .quad-3 { background: var(--tint-ice); }
+        .quad-0 {
+            background: var(--lime-500);
+        }
+
+        .quad-1 {
+            background: var(--brand-400);
+        }
+
+        .quad-2 {
+            background: var(--yellow-400);
+        }
+
+        .quad-3 {
+            background: var(--tint-ice);
+        }
 
         .quadrant.locked {
             filter: grayscale(0.9) brightness(1.2);
@@ -378,9 +411,11 @@
         /* Tree Trunk Overlay */
         .tree-trunk {
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 30%; height: 50%;
+            width: 30%;
+            height: 50%;
             pointer-events: none;
             z-index: 10;
         }
@@ -390,7 +425,7 @@
             position: absolute;
             width: 20vmin;
             height: 20vmin;
-            border: 4px dashed rgba(255,255,255,0.8);
+            border: 4px dashed rgba(255, 255, 255, 0.8);
             border-radius: 50%;
             z-index: 5;
             display: flex;
@@ -399,10 +434,25 @@
         }
 
         /* Positioning the targets away from center trunk */
-        .quad-0 .drop-target-area { top: 10%; left: 10%; }
-        .quad-1 .drop-target-area { top: 10%; right: 10%; }
-        .quad-3 .drop-target-area { bottom: 10%; left: 10%; }
-        .quad-2 .drop-target-area { bottom: 10%; right: 10%; }
+        .quad-0 .drop-target-area {
+            top: 10%;
+            left: 10%;
+        }
+
+        .quad-1 .drop-target-area {
+            top: 10%;
+            right: 10%;
+        }
+
+        .quad-3 .drop-target-area {
+            bottom: 10%;
+            left: 10%;
+        }
+
+        .quad-2 .drop-target-area {
+            bottom: 10%;
+            right: 10%;
+        }
 
         /* Dynamic styles for token emoji sizing */
         .token-emoji {
@@ -425,40 +475,91 @@
            7. ANIMATIONS
            ========================================================= */
         @keyframes popIn {
-            0% { transform: scale(0.5); opacity: 0; }
-            70% { transform: scale(1.15); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.15);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            20%,
+            60% {
+                transform: translateX(-8px);
+            }
+
+            40%,
+            80% {
+                transform: translateX(8px);
+            }
         }
-        .shake { animation: shake 0.4s ease; }
+
+        .shake {
+            animation: shake 0.4s ease;
+        }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
         }
-        .floating { animation: float 3s ease-in-out infinite; }
+
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
 
         @keyframes leafFall {
-            0% { transform: translateY(-20px) rotate(0deg); opacity: 0;}
-            50% { opacity: 1; }
-            100% { transform: translateY(40px) rotate(45deg); opacity: 0;}
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(40px) rotate(45deg);
+                opacity: 0;
+            }
         }
 
         /* --- Seasonal Tree Animations --- */
         .season-layer {
             position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 2;
         }
 
-        .spring-flower, .summer-fruit, .autumn-leaf, .winter-snow {
+        .spring-flower,
+        .summer-fruit,
+        .autumn-leaf,
+        .winter-snow {
             transform-box: fill-box;
             transform-origin: center;
         }
@@ -468,15 +569,34 @@
             /* Bloom once, then breathe continuously */
             animation: springBloom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, springBreathe 3s ease-in-out infinite;
         }
-        .spring-flower { transform: scale(0); opacity: 0; }
-        
-        @keyframes springBloom {
-            0% { transform: scale(0) rotate(-45deg); opacity: 0; }
-            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+
+        .spring-flower {
+            transform: scale(0);
+            opacity: 0;
         }
+
+        @keyframes springBloom {
+            0% {
+                transform: scale(0) rotate(-45deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
         @keyframes springBreathe {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.15) rotate(8deg); }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.15) rotate(8deg);
+            }
         }
 
         /* Summer */
@@ -484,15 +604,34 @@
             /* Grow once, then sway continuously */
             animation: summerGrow 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, summerSway 4s ease-in-out infinite;
         }
-        .summer-fruit { transform: scale(0); opacity: 0; }
+
+        .summer-fruit {
+            transform: scale(0);
+            opacity: 0;
+        }
 
         @keyframes summerGrow {
-            0% { transform: scale(0) translateY(-10px); opacity: 0; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
+            0% {
+                transform: scale(0) translateY(-10px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) translateY(0);
+                opacity: 1;
+            }
         }
+
         @keyframes summerSway {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            50% { transform: scale(1.1) rotate(-8deg); }
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            50% {
+                transform: scale(1.1) rotate(-8deg);
+            }
         }
 
         /* Autumn */
@@ -500,12 +639,25 @@
             animation: autumnFall linear infinite;
             opacity: 0;
         }
-        
+
         @keyframes autumnFall {
-            0% { transform: translate(0, -10px) rotate(0deg); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translate(-20px, 80px) rotate(180deg); opacity: 0; }
+            0% {
+                transform: translate(0, -10px) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-20px, 80px) rotate(180deg);
+                opacity: 0;
+            }
         }
 
         /* Winter */
@@ -515,18 +667,45 @@
         }
 
         @keyframes winterSnow {
-            0% { transform: translate(0, -10px); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translate(10px, 90px); opacity: 0; }
+            0% {
+                transform: translate(0, -10px);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(10px, 90px);
+                opacity: 0;
+            }
         }
 
         /* Two delays: 1st for entrance animation, 2nd for continuous loop (entrance delay + 0.8s entrance duration) */
-        .anim-d1 { animation-delay: 0.2s, 1.0s !important; }
-        .anim-d2 { animation-delay: 0.6s, 1.4s !important; }
-        .anim-d3 { animation-delay: 1.0s, 1.8s !important; }
-        .anim-d4 { animation-delay: 1.5s, 2.3s !important; }
-        .anim-d5 { animation-delay: 2.0s, 2.8s !important; }
+        .anim-d1 {
+            animation-delay: 0.2s, 1.0s !important;
+        }
+
+        .anim-d2 {
+            animation-delay: 0.6s, 1.4s !important;
+        }
+
+        .anim-d3 {
+            animation-delay: 1.0s, 1.8s !important;
+        }
+
+        .anim-d4 {
+            animation-delay: 1.5s, 2.3s !important;
+        }
+
+        .anim-d5 {
+            animation-delay: 2.0s, 2.8s !important;
+        }
 
         /* =========================================================
            8. RACCOON SVG & STATE STYLES
@@ -537,34 +716,91 @@
             margin-bottom: 2vmin;
             position: relative;
         }
-        
-        .raccoon-svg { width: 100%; height: 100%; overflow: visible; }
-        
+
+        .raccoon-svg {
+            width: 100%;
+            height: 100%;
+            overflow: visible;
+        }
+
         /* Hidden Props by default */
-        .prop { opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; }
-        
+        .prop {
+            opacity: 0;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
         /* State Togglers */
-        .stage-0 .prop-spring { opacity: 1; transform: scale(1); }
-        .stage-1 .prop-summer { opacity: 1; transform: scale(1); }
-        .stage-2 .prop-autumn { opacity: 1; transform: scale(1); }
-        .stage-3 .prop-winter { opacity: 1; transform: scale(1); }
+        .stage-0 .prop-spring {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stage-1 .prop-summer {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stage-2 .prop-autumn {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stage-3 .prop-winter {
+            opacity: 1;
+            transform: scale(1);
+        }
 
         /* Confetti Canvas */
         #confetti-canvas {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 1000;
         }
 
+        /* Music toggle (top right) */
+        #music-toggle {
+            position: fixed;
+            top: 12px;
+            right: 12px;
+            z-index: 100;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 3px solid var(--chrome);
+            background: var(--bg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        #music-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
+
 <body>
+
+    <!-- Background Music -->
+    <audio id="bg-music" src="bg-song.mp3" loop preload="auto"></audio>
+
+    <!-- Music toggle (muted by default) -->
+    <button type="button" id="music-toggle" aria-label="Unmute music">🔇</button>
 
     <!-- Portrait Lock -->
     <div id="portrait-warning">
-        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
             <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
             <path d="M12 18h.01"></path>
             <path d="M19 12h2l-2-3-2 3h2v2a2 2 0 0 1-2 2H9"></path>
@@ -607,11 +843,11 @@
 
     <!-- Game Screen -->
     <div id="game-screen" class="screen hidden">
-        
+
         <!-- Left Panel: Interaction (Spelling / Dragging) -->
         <div id="left-panel" class="panel">
             <h2 id="season-title">SPRING</h2>
-            
+
             <!-- Raccoon Character -->
             <div id="raccoon-container" class="floating stage-0">
                 <svg viewBox="0 0 200 200" class="raccoon-svg">
@@ -663,22 +899,27 @@
                     <div class="quadrant quad-0 locked" data-season="0" id="quad-0">
                         <svg class="quad-icon-bg" viewBox="0 0 100 100">
                             <!-- Simple flower bg -->
-                            <circle cx="50" cy="30" r="15" fill="var(--on-color)"/>
-                            <circle cx="70" cy="50" r="15" fill="var(--on-color)"/>
-                            <circle cx="50" cy="70" r="15" fill="var(--on-color)"/>
-                            <circle cx="30" cy="50" r="15" fill="var(--on-color)"/>
-                            <circle cx="50" cy="50" r="12" fill="var(--pink-500)"/>
+                            <circle cx="50" cy="30" r="15" fill="var(--on-color)" />
+                            <circle cx="70" cy="50" r="15" fill="var(--on-color)" />
+                            <circle cx="50" cy="70" r="15" fill="var(--on-color)" />
+                            <circle cx="30" cy="50" r="15" fill="var(--on-color)" />
+                            <circle cx="50" cy="50" r="12" fill="var(--pink-500)" />
                         </svg>
                         <svg class="season-layer" viewBox="0 0 100 100">
                             <circle cx="100" cy="100" r="70" fill="var(--lime-500)" opacity="0.9" />
                             <circle cx="40" cy="80" r="40" fill="var(--lime-500)" opacity="0.9" />
                             <circle cx="80" cy="40" r="40" fill="var(--lime-500)" opacity="0.9" />
                             <!-- Emoji flowers continuously breathing -->
-                            <text class="spring-flower anim-d1" x="70" y="70" font-size="18" text-anchor="middle" dominant-baseline="central">🌺</text>
-                            <text class="spring-flower anim-d2" x="45" y="85" font-size="14" text-anchor="middle" dominant-baseline="central">🌺</text>
-                            <text class="spring-flower anim-d3" x="85" y="45" font-size="20" text-anchor="middle" dominant-baseline="central">🌺</text>
-                            <text class="spring-flower anim-d4" x="55" y="55" font-size="15" text-anchor="middle" dominant-baseline="central">🌺</text>
-                            <text class="spring-flower anim-d5" x="90" y="80" font-size="12" text-anchor="middle" dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d1" x="70" y="70" font-size="18" text-anchor="middle"
+                                dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d2" x="45" y="85" font-size="14" text-anchor="middle"
+                                dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d3" x="85" y="45" font-size="20" text-anchor="middle"
+                                dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d4" x="55" y="55" font-size="15" text-anchor="middle"
+                                dominant-baseline="central">🌺</text>
+                            <text class="spring-flower anim-d5" x="90" y="80" font-size="12" text-anchor="middle"
+                                dominant-baseline="central">🌺</text>
                         </svg>
                         <div class="drop-target-area"></div>
                     </div>
@@ -686,20 +927,28 @@
                     <div class="quadrant quad-1 locked" data-season="1" id="quad-1">
                         <svg class="quad-icon-bg" viewBox="0 0 100 100">
                             <!-- Simple Sun bg -->
-                            <circle cx="50" cy="50" r="25" fill="var(--on-color)"/>
-                            <path d="M 50,10 L 50,20 M 50,80 L 50,90 M 10,50 L 20,50 M 80,50 L 90,50 M 20,20 L 30,30 M 70,70 L 80,80 M 20,80 L 30,70 M 70,30 L 80,20" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round"/>
+                            <circle cx="50" cy="50" r="25" fill="var(--on-color)" />
+                            <path
+                                d="M 50,10 L 50,20 M 50,80 L 50,90 M 10,50 L 20,50 M 80,50 L 90,50 M 20,20 L 30,30 M 70,70 L 80,80 M 20,80 L 30,70 M 70,30 L 80,20"
+                                stroke="var(--on-color)" stroke-width="8" stroke-linecap="round" />
                         </svg>
                         <svg class="season-layer" viewBox="0 0 100 100">
                             <circle cx="0" cy="100" r="70" fill="var(--brand-500)" opacity="0.9" />
                             <circle cx="60" cy="80" r="40" fill="var(--brand-500)" opacity="0.9" />
                             <circle cx="20" cy="40" r="40" fill="var(--brand-500)" opacity="0.9" />
                             <!-- Emoji fruits and leaves swaying -->
-                            <text class="summer-fruit anim-d1" x="30" y="70" font-size="18" text-anchor="middle" dominant-baseline="central">🍒</text>
-                            <text class="summer-fruit anim-d2" x="55" y="85" font-size="14" text-anchor="middle" dominant-baseline="central">🍒</text>
-                            <text class="summer-fruit anim-d3" x="15" y="45" font-size="16" text-anchor="middle" dominant-baseline="central">🍒</text>
-                            <text class="summer-fruit anim-d4" x="45" y="55" font-size="15" text-anchor="middle" dominant-baseline="central">🍒</text>
-                            <text class="summer-fruit anim-d5" x="25" y="85" font-size="14" text-anchor="middle" dominant-baseline="central">🍃</text>
-                            <text class="summer-fruit anim-d1" x="45" y="35" font-size="16" text-anchor="middle" dominant-baseline="central">🍃</text>
+                            <text class="summer-fruit anim-d1" x="30" y="70" font-size="18" text-anchor="middle"
+                                dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d2" x="55" y="85" font-size="14" text-anchor="middle"
+                                dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d3" x="15" y="45" font-size="16" text-anchor="middle"
+                                dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d4" x="45" y="55" font-size="15" text-anchor="middle"
+                                dominant-baseline="central">🍒</text>
+                            <text class="summer-fruit anim-d5" x="25" y="85" font-size="14" text-anchor="middle"
+                                dominant-baseline="central">🍃</text>
+                            <text class="summer-fruit anim-d1" x="45" y="35" font-size="16" text-anchor="middle"
+                                dominant-baseline="central">🍃</text>
                         </svg>
                         <div class="drop-target-area"></div>
                     </div>
@@ -707,18 +956,26 @@
                     <div class="quadrant quad-3 locked" data-season="3" id="quad-3">
                         <svg class="quad-icon-bg" viewBox="0 0 100 100">
                             <!-- Simple Snow bg -->
-                            <path d="M 50,10 L 50,90 M 10,50 L 90,50 M 20,20 L 80,80 M 20,80 L 80,20" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round"/>
+                            <path d="M 50,10 L 50,90 M 10,50 L 90,50 M 20,20 L 80,80 M 20,80 L 80,20"
+                                stroke="var(--on-color)" stroke-width="8" stroke-linecap="round" />
                         </svg>
                         <svg class="season-layer" viewBox="0 0 100 100">
                             <!-- Snow on branches -->
-                            <path d="M0,0 Q30,10 60,30" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.9"/>
-                            <path d="M20,30 Q40,60 30,80" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.9"/>
+                            <path d="M0,0 Q30,10 60,30" stroke="var(--on-color)" stroke-width="8" stroke-linecap="round"
+                                fill="none" opacity="0.9" />
+                            <path d="M20,30 Q40,60 30,80" stroke="var(--on-color)" stroke-width="8"
+                                stroke-linecap="round" fill="none" opacity="0.9" />
                             <!-- Falling snow -->
-                            <circle class="winter-snow anim-d1" cx="30" cy="10" r="3" fill="var(--on-color)" style="animation-duration: 3s;" />
-                            <circle class="winter-snow anim-d2" cx="60" cy="0" r="2" fill="var(--on-color)" style="animation-duration: 4s;" />
-                            <circle class="winter-snow anim-d3" cx="80" cy="20" r="4" fill="var(--on-color)" style="animation-duration: 3.5s;" />
-                            <circle class="winter-snow anim-d4" cx="20" cy="40" r="3" fill="var(--on-color)" style="animation-duration: 4.5s;" />
-                            <circle class="winter-snow anim-d5" cx="50" cy="50" r="2" fill="var(--on-color)" style="animation-duration: 3.8s;" />
+                            <circle class="winter-snow anim-d1" cx="30" cy="10" r="3" fill="var(--on-color)"
+                                style="animation-duration: 3s;" />
+                            <circle class="winter-snow anim-d2" cx="60" cy="0" r="2" fill="var(--on-color)"
+                                style="animation-duration: 4s;" />
+                            <circle class="winter-snow anim-d3" cx="80" cy="20" r="4" fill="var(--on-color)"
+                                style="animation-duration: 3.5s;" />
+                            <circle class="winter-snow anim-d4" cx="20" cy="40" r="3" fill="var(--on-color)"
+                                style="animation-duration: 4.5s;" />
+                            <circle class="winter-snow anim-d5" cx="50" cy="50" r="2" fill="var(--on-color)"
+                                style="animation-duration: 3.8s;" />
                         </svg>
                         <div class="drop-target-area"></div>
                     </div>
@@ -726,32 +983,44 @@
                     <div class="quadrant quad-2 locked" data-season="2" id="quad-2">
                         <svg class="quad-icon-bg" viewBox="0 0 100 100">
                             <!-- Simple Leaf bg -->
-                            <path d="M 50,90 L 50,60 M 50,10 L 70,40 L 90,40 L 60,60 L 70,90 L 50,70 L 30,90 L 40,60 L 10,40 L 30,40 Z" fill="var(--on-color)"/>
+                            <path
+                                d="M 50,90 L 50,60 M 50,10 L 70,40 L 90,40 L 60,60 L 70,90 L 50,70 L 30,90 L 40,60 L 10,40 L 30,40 Z"
+                                fill="var(--on-color)" />
                         </svg>
                         <svg class="season-layer" viewBox="0 0 100 100">
                             <circle cx="100" cy="0" r="70" fill="var(--apricot-400)" opacity="0.9" />
                             <circle cx="40" cy="20" r="40" fill="var(--apricot-400)" opacity="0.9" />
                             <circle cx="80" cy="60" r="40" fill="var(--apricot-400)" opacity="0.9" />
                             <!-- More falling leaves (mix of emojis) -->
-                            <text class="autumn-leaf anim-d1" x="70" y="30" font-size="14" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4s;">🍂</text>
-                            <text class="autumn-leaf anim-d2" x="45" y="15" font-size="16" text-anchor="middle" dominant-baseline="central" style="animation-duration: 5s;">🍁</text>
-                            <text class="autumn-leaf anim-d3" x="85" y="55" font-size="12" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4.5s;">🍂</text>
-                            <text class="autumn-leaf anim-d4" x="55" y="45" font-size="15" text-anchor="middle" dominant-baseline="central" style="animation-duration: 5.5s;">🍁</text>
-                            <text class="autumn-leaf anim-d5" x="60" y="10" font-size="12" text-anchor="middle" dominant-baseline="central" style="animation-duration: 3.5s;">🍂</text>
-                            <text class="autumn-leaf anim-d1" x="90" y="20" font-size="18" text-anchor="middle" dominant-baseline="central" style="animation-duration: 6s;">🍁</text>
-                            <text class="autumn-leaf anim-d2" x="75" y="65" font-size="14" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4.8s;">🍂</text>
-                            <text class="autumn-leaf anim-d3" x="35" y="35" font-size="13" text-anchor="middle" dominant-baseline="central" style="animation-duration: 4.2s;">🍁</text>
+                            <text class="autumn-leaf anim-d1" x="70" y="30" font-size="14" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 4s;">🍂</text>
+                            <text class="autumn-leaf anim-d2" x="45" y="15" font-size="16" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 5s;">🍁</text>
+                            <text class="autumn-leaf anim-d3" x="85" y="55" font-size="12" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 4.5s;">🍂</text>
+                            <text class="autumn-leaf anim-d4" x="55" y="45" font-size="15" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 5.5s;">🍁</text>
+                            <text class="autumn-leaf anim-d5" x="60" y="10" font-size="12" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 3.5s;">🍂</text>
+                            <text class="autumn-leaf anim-d1" x="90" y="20" font-size="18" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 6s;">🍁</text>
+                            <text class="autumn-leaf anim-d2" x="75" y="65" font-size="14" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 4.8s;">🍂</text>
+                            <text class="autumn-leaf anim-d3" x="35" y="35" font-size="13" text-anchor="middle"
+                                dominant-baseline="central" style="animation-duration: 4.2s;">🍁</text>
                         </svg>
                         <div class="drop-target-area"></div>
                     </div>
                 </div>
-                
+
                 <!-- Tree Trunk Overlay -->
                 <svg class="tree-trunk" viewBox="0 0 100 200">
                     <path d="M 30,200 Q 40,100 20,20 Q 50,0 80,20 Q 60,100 70,200 Z" fill="#8C6B5D" />
                     <!-- Branches -->
-                    <path d="M 40,80 Q 20,60 10,40" stroke="#8C6B5D" stroke-width="8" stroke-linecap="round" fill="none"/>
-                    <path d="M 60,100 Q 80,80 90,60" stroke="#8C6B5D" stroke-width="8" stroke-linecap="round" fill="none"/>
+                    <path d="M 40,80 Q 20,60 10,40" stroke="#8C6B5D" stroke-width="8" stroke-linecap="round"
+                        fill="none" />
+                    <path d="M 60,100 Q 80,80 90,60" stroke="#8C6B5D" stroke-width="8" stroke-linecap="round"
+                        fill="none" />
                 </svg>
             </div>
         </div>
@@ -762,6 +1031,29 @@
 
     <!-- Game Logic Scripts -->
     <script>
+        // Music muted by default; toggle button at top right (🔇 / 🔉) starts/stops playback
+        window.addEventListener('load', function () {
+            var bgMusic = document.getElementById('bg-music');
+            var toggleBtn = document.getElementById('music-toggle');
+            if (bgMusic && toggleBtn) {
+                bgMusic.volume = 0.25; // 50% of typical sound effect level (0.5)
+                bgMusic.muted = true; // start muted
+                toggleBtn.addEventListener('click', function () {
+                    if (bgMusic.muted || bgMusic.paused) {
+                        bgMusic.muted = false;
+                        bgMusic.play().catch(function () { });
+                        toggleBtn.textContent = '🔉';
+                        toggleBtn.setAttribute('aria-label', 'Mute music');
+                    } else {
+                        bgMusic.muted = true;
+                        bgMusic.pause();
+                        toggleBtn.textContent = '🔇';
+                        toggleBtn.setAttribute('aria-label', 'Unmute music');
+                    }
+                });
+            }
+        });
+
         /* =========================================================
            1. GAME DATA & STATE
            ========================================================= */
@@ -893,7 +1185,7 @@
                 ctx.translate(p.x, p.y);
                 ctx.rotate(p.rot * Math.PI / 180);
                 ctx.fillStyle = p.color;
-                ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+                ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
                 ctx.restore();
             });
 
@@ -948,7 +1240,7 @@
 
             // Generate Slots
             slotsContainer.innerHTML = '';
-            for(let i = 0; i < stage.word.length; i++) {
+            for (let i = 0; i < stage.word.length; i++) {
                 const slot = document.createElement('div');
                 slot.className = 'slot';
                 slotsContainer.appendChild(slot);
@@ -958,12 +1250,12 @@
             lettersContainer.innerHTML = '';
             let letters = stage.word.split('');
             letters = shuffle(letters);
-            
+
             letters.forEach((l) => {
                 const btn = document.createElement('button');
                 btn.className = 'letter-btn';
                 btn.innerText = l;
-                
+
                 // Pointer Event for clicking letter
                 btn.addEventListener('pointerdown', () => handleLetterClick(btn, l));
                 lettersContainer.appendChild(btn);
@@ -980,12 +1272,12 @@
                 // Correct
                 playPop();
                 btn.classList.add('hidden-letter'); // hide from pool
-                
+
                 // Fill slot
                 const slot = slotsContainer.children[currentWordProgress];
                 slot.innerText = letter;
                 slot.classList.add('filled');
-                
+
                 currentWordProgress++;
 
                 if (currentWordProgress === stage.word.length) {
@@ -1003,7 +1295,7 @@
         function handleStageComplete() {
             playWin();
             createConfetti();
-            
+
             // Reveal Map Quadrant
             const quad = document.getElementById(`quad-${currentStageIndex}`);
             quad.classList.remove('locked');
@@ -1027,13 +1319,13 @@
             seasonTitle.innerText = "MATCH TO MAP!";
             raccoonContainer.style.display = 'none';
             document.getElementById('spelling-container').style.display = 'none';
-            
+
             const dragContainer = document.getElementById('drag-container');
             dragContainer.style.display = 'flex';
-            
+
             const tokensContainer = document.getElementById('tokens-container');
             tokensContainer.innerHTML = '';
-            
+
             // Create draggable tokens
             const order = shuffle([0, 1, 2, 3]);
             activeTokensCount = 4;
@@ -1043,7 +1335,7 @@
                 token.className = 'drag-token';
                 token.innerHTML = STAGES[i].tokenIcon;
                 token.dataset.season = i;
-                
+
                 // Add Pointer Events
                 token.addEventListener('pointerdown', handlePointerDown);
                 tokensContainer.appendChild(token);
@@ -1057,18 +1349,18 @@
         function handlePointerDown(e) {
             if (e.button !== 0 && e.type !== 'touchstart') return; // Only left click or touch
             draggedEl = e.currentTarget;
-            
+
             // Capture pointer for smooth dragging outside bounds
             draggedEl.setPointerCapture(e.pointerId);
 
             // Get initial position relative to viewport
             const rect = draggedEl.getBoundingClientRect();
-            
+
             // Set styles for dragging (fixed position to break out of flex)
             draggedEl.classList.add('token-dragging');
             draggedEl.style.left = rect.left + 'px';
             draggedEl.style.top = rect.top + 'px';
-            
+
             startX = e.clientX;
             startY = e.clientY;
             initialLeft = rect.left;
@@ -1107,14 +1399,14 @@
             if (dropZone && dropZone.dataset.season === draggedEl.dataset.season) {
                 // Correct Match
                 playPop();
-                
+
                 // Remove fixed styling and append to drop target area inside quadrant
                 draggedEl.classList.remove('token-dragging');
                 draggedEl.style.left = '';
                 draggedEl.style.top = '';
                 draggedEl.style.transform = 'scale(1)';
                 draggedEl.style.boxShadow = 'none';
-                
+
                 // Disable further dragging
                 draggedEl.removeEventListener('pointerdown', handlePointerDown);
                 draggedEl.style.cursor = 'default';
@@ -1135,7 +1427,7 @@
             } else {
                 // Wrong or dropped outside
                 playBuzz();
-                
+
                 // Animate back to original container visually, then reset DOM
                 draggedEl.style.transition = 'left 0.3s ease, top 0.3s ease';
                 draggedEl.style.left = initialLeft + 'px';
@@ -1157,7 +1449,7 @@
             createConfetti();
             seasonTitle.innerText = "YOU DID IT!";
             document.getElementById('tokens-container').style.display = 'none';
-            
+
             const restartBtn = document.createElement('button');
             restartBtn.className = 'bubble-btn';
             restartBtn.innerText = 'PLAY AGAIN';
@@ -1168,4 +1460,5 @@
 
     </script>
 </body>
+
 </html>
